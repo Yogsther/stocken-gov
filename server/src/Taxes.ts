@@ -57,7 +57,9 @@ export default class Taxes {
             console.error("Could not find tax report with id " + report_id + ".")
         }
         await new TaxReport({
-            ...report,
+            player_guid: report.player_guid,
+            items: report.items,
+            date: report.date,
             signed: true
         })
         .save()
