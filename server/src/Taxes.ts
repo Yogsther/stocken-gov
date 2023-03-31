@@ -25,10 +25,8 @@ export default class Taxes {
         }
         // If the player has picked up items with given id, update.
         new ItemPickups({
-            user_id,
-            item_id,
+            ...item,
             amount: item.amount + amount,
-            date: Date.now()
         })
         .save()
     }
