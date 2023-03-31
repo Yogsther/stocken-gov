@@ -1,0 +1,314 @@
+[20:05:32] [ServerMain/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[20:05:33] [ServerMain/INFO]: Loaded 7 recipes
+[20:05:34] [Server thread/INFO]: Starting minecraft server version 1.19.4
+[20:05:34] [Server thread/INFO]: Loading properties
+[20:05:34] [Server thread/INFO]: This server is running CraftBukkit version 3699-Spigot-6ad4b93-f92c945 (MC: 1.19.4) (Implementing API version 1.19.4-R0.1-SNAPSHOT)
+[20:05:34] [Server thread/INFO]: Debug logging is disabled
+[20:05:34] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[20:05:34] [Server thread/INFO]: Using 4 threads for Netty based IO
+[20:05:34] [Server thread/INFO]: Default game type: SURVIVAL
+[20:05:34] [Server thread/INFO]: Generating keypair
+[20:05:34] [Server thread/INFO]: Starting Minecraft server on *:25566
+[20:05:34] [Server thread/INFO]: Using default channel type
+[20:05:35] [Server thread/INFO]: [taxauth] Loading taxauth v0.1
+[20:05:35] [Server thread/INFO]: Preparing level "world"
+[20:05:35] [Server thread/INFO]: -------- World Settings For [world] --------
+[20:05:35] [Server thread/INFO]: Item Despawn Rate: 6000
+[20:05:35] [Server thread/INFO]: Item Merge Radius: 2.5
+[20:05:35] [Server thread/INFO]: View Distance: 10
+[20:05:35] [Server thread/INFO]: Simulation Distance: 10
+[20:05:35] [Server thread/INFO]: Mob Spawn Range: 6
+[20:05:35] [Server thread/INFO]: Experience Merge Radius: 3.0
+[20:05:35] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Cane Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Melon Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Beetroot Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Carrot Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Potato Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Vine Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Bamboo Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: SweetBerry Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Kelp Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: TwistingVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: WeepingVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: CaveVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Ra 48 / Mi 16 / Tiv true / Isa false
+[20:05:35] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1 Hopper Can Load Chunks: false
+[20:05:35] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[20:05:35] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Desert: 14357617 Igloo: 14357618 Jungle: 14357619 Swamp: 14357620 Monument: 10387313 Ocean: 14357621 Shipwreck: 165745295 End City: 10387313 Slime: 987234911 Nether: 30084232 Mansion: 10387319 Fossil: 14357921 Portal: 34222645
+[20:05:35] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[20:05:35] [Server thread/INFO]: Max TNT Explosions: 100
+[20:05:35] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[20:05:35] [Server thread/INFO]: Arrow Despawn Rate: 1200 Trident Respawn Rate:1200
+[20:05:35] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[20:05:35] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[20:05:35] [Server thread/INFO]: -------- World Settings For [world_nether] --------
+[20:05:35] [Server thread/INFO]: Item Despawn Rate: 6000
+[20:05:35] [Server thread/INFO]: Item Merge Radius: 2.5
+[20:05:35] [Server thread/INFO]: View Distance: 10
+[20:05:35] [Server thread/INFO]: Simulation Distance: 10
+[20:05:35] [Server thread/INFO]: Mob Spawn Range: 6
+[20:05:35] [Server thread/INFO]: Experience Merge Radius: 3.0
+[20:05:35] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Cane Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Melon Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Beetroot Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Carrot Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Potato Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Vine Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Bamboo Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: SweetBerry Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Kelp Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: TwistingVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: WeepingVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: CaveVines Growth Modifier: 100%
+[20:05:35] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Ra 48 / Mi 16 / Tiv true / Isa false
+[20:05:35] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1 Hopper Can Load Chunks: false
+[20:05:35] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[20:05:35] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Desert: 14357617 Igloo: 14357618 Jungle: 14357619 Swamp: 14357620 Monument: 10387313 Ocean: 14357621 Shipwreck: 165745295 End City: 10387313 Slime: 987234911 Nether: 30084232 Mansion: 10387319 Fossil: 14357921 Portal: 34222645
+[20:05:35] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[20:05:35] [Server thread/INFO]: Max TNT Explosions: 100
+[20:05:35] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[20:05:35] [Server thread/INFO]: Arrow Despawn Rate: 1200 Trident Respawn Rate:1200
+[20:05:35] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[20:05:35] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[20:05:36] [Server thread/INFO]: -------- World Settings For [world_the_end] --------
+[20:05:36] [Server thread/INFO]: Item Despawn Rate: 6000
+[20:05:36] [Server thread/INFO]: Item Merge Radius: 2.5
+[20:05:36] [Server thread/INFO]: View Distance: 10
+[20:05:36] [Server thread/INFO]: Simulation Distance: 10
+[20:05:36] [Server thread/INFO]: Mob Spawn Range: 6
+[20:05:36] [Server thread/INFO]: Experience Merge Radius: 3.0
+[20:05:36] [Server thread/INFO]: Cactus Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Cane Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Melon Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Mushroom Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Pumpkin Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Sapling Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Beetroot Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Carrot Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Potato Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Wheat Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: NetherWart Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Vine Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Cocoa Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Bamboo Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: SweetBerry Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Kelp Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: TwistingVines Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: WeepingVines Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: CaveVines Growth Modifier: 100%
+[20:05:36] [Server thread/INFO]: Entity Activation Range: An 32 / Mo 32 / Ra 48 / Mi 16 / Tiv true / Isa false
+[20:05:36] [Server thread/INFO]: Hopper Transfer: 8 Hopper Check: 1 Hopper Amount: 1 Hopper Can Load Chunks: false
+[20:05:36] [Server thread/INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Mi 32 / Other 64
+[20:05:36] [Server thread/INFO]: Custom Map Seeds:  Village: 10387312 Desert: 14357617 Igloo: 14357618 Jungle: 14357619 Swamp: 14357620 Monument: 10387313 Ocean: 14357621 Shipwreck: 165745295 End City: 10387313 Slime: 987234911 Nether: 30084232 Mansion: 10387319 Fossil: 14357921 Portal: 34222645
+[20:05:36] [Server thread/INFO]: Tile Max Tick Time: 50ms Entity max Tick Time: 50ms
+[20:05:36] [Server thread/INFO]: Max TNT Explosions: 100
+[20:05:36] [Server thread/INFO]: Allow Zombie Pigmen to spawn from portal blocks: true
+[20:05:36] [Server thread/INFO]: Arrow Despawn Rate: 1200 Trident Respawn Rate:1200
+[20:05:36] [Server thread/INFO]: Nerfing mobs spawned from spawners: false
+[20:05:36] [Server thread/INFO]: Zombie Aggressive Towards Villager: true
+[20:05:36] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[20:05:37] [Worker-Main-14/INFO]: Preparing spawn area: 0%
+[20:05:37] [Worker-Main-6/INFO]: Preparing spawn area: 0%
+[20:05:37] [Worker-Main-2/INFO]: Preparing spawn area: 0%
+[20:05:37] [Worker-Main-10/INFO]: Preparing spawn area: 0%
+[20:05:38] [Worker-Main-6/INFO]: Preparing spawn area: 0%
+[20:05:38] [Worker-Main-3/INFO]: Preparing spawn area: 62%
+[20:05:38] [Server thread/INFO]: Time elapsed: 2577 ms
+[20:05:38] [Server thread/INFO]: Preparing start region for dimension minecraft:the_nether
+[20:05:39] [Worker-Main-5/INFO]: Preparing spawn area: 0%
+[20:05:39] [Worker-Main-8/INFO]: Preparing spawn area: 0%
+[20:05:39] [Worker-Main-3/INFO]: Preparing spawn area: 0%
+[20:05:40] [Worker-Main-14/INFO]: Preparing spawn area: 0%
+[20:05:40] [Worker-Main-6/INFO]: Preparing spawn area: 71%
+[20:05:40] [Server thread/INFO]: Time elapsed: 2127 ms
+[20:05:40] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
+[20:05:42] [Worker-Main-7/INFO]: Preparing spawn area: 0%
+[20:05:42] [Worker-Main-7/INFO]: Preparing spawn area: 0%
+[20:05:42] [Worker-Main-5/INFO]: Preparing spawn area: 0%
+[20:05:42] [Worker-Main-3/INFO]: Preparing spawn area: 1%
+[20:05:42] [Server thread/INFO]: Time elapsed: 1831 ms
+[20:05:42] [Server thread/INFO]: [taxauth] Enabling taxauth v0.1
+[20:05:42] [Server thread/INFO]: taxauth enabled
+[20:05:42] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[20:05:42] [Server thread/INFO]: Done (7.525s)! For help, type "help"
+[21:31:03] [User Authenticator #1/INFO]: UUID of player 0x6F6B is 40d1f02b-437d-4e19-8ddb-29c5b7ed4f0a
+[21:31:03] [Server thread/INFO]: 0x6F6B joined the game
+[21:31:04] [Server thread/INFO]: 0x6F6B[/192.168.50.1:49656] logged in with entity id 44 at ([world]20.51369360389488, 64.0, -72.71751175543093)
+[21:31:10] [Server thread/INFO]: 0x6F6B issued server command: /gamemode creative
+[21:31:10] [Server thread/INFO]: [0x6F6B: Set own game mode to Creative Mode]
+[21:31:31] [Server thread/INFO]: 0x6F6B issued server command: /gamemode survival
+[21:31:31] [Server thread/INFO]: [0x6F6B: Set own game mode to Survival Mode]
+[21:31:33] [Server thread/WARN]: java.io.IOException: Server returned HTTP response code: 500 for URL: http://localhost:1099/local-api/block_mined
+[21:31:33] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1980)
+[21:31:33] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1581)
+[21:31:33] [Server thread/WARN]: 	at com.stocken.taxauth.APIMessage.send(APIMessage.java:55)
+[21:31:33] [Server thread/WARN]: 	at com.stocken.taxauth.OnBlockBreak.onBlockBreak(OnBlockBreak.java:40)
+[21:31:33] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+[21:31:33] [Server thread/WARN]: 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+[21:31:33] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader$1.execute(JavaPluginLoader.java:306)
+[21:31:33] [Server thread/WARN]: 	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[21:31:33] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.fireEvent(SimplePluginManager.java:589)
+[21:31:33] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:576)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:360)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:319)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:287)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.network.PlayerConnection.a(PlayerConnection.java:1569)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:42)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:8)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.network.protocol.PlayerConnectionUtils.lambda$0(PlayerConnectionUtils.java:31)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.TickTask.run(SourceFile:18)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.d(SourceFile:156)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandlerReentrant.d(SourceFile:23)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.b(MinecraftServer.java:1154)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:1)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.x(SourceFile:130)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.bi(MinecraftServer.java:1133)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.x(MinecraftServer.java:1126)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.c(SourceFile:139)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.i_(MinecraftServer.java:1110)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1021)
+[21:31:33] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$0(MinecraftServer.java:304)
+[21:31:33] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:1623)
+[21:32:30] [Server thread/WARN]: java.io.IOException: Server returned HTTP response code: 500 for URL: http://localhost:1099/local-api/block_mined
+[21:32:30] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1980)
+[21:32:30] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1581)
+[21:32:30] [Server thread/WARN]: 	at com.stocken.taxauth.APIMessage.send(APIMessage.java:55)
+[21:32:30] [Server thread/WARN]: 	at com.stocken.taxauth.OnBlockBreak.onBlockBreak(OnBlockBreak.java:40)
+[21:32:30] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+[21:32:30] [Server thread/WARN]: 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+[21:32:30] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader$1.execute(JavaPluginLoader.java:306)
+[21:32:30] [Server thread/WARN]: 	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[21:32:30] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.fireEvent(SimplePluginManager.java:589)
+[21:32:30] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:576)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:360)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:319)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:287)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.network.PlayerConnection.a(PlayerConnection.java:1569)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:42)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:8)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.network.protocol.PlayerConnectionUtils.lambda$0(PlayerConnectionUtils.java:31)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.TickTask.run(SourceFile:18)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.d(SourceFile:156)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandlerReentrant.d(SourceFile:23)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.b(MinecraftServer.java:1154)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:1)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.x(SourceFile:130)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.bi(MinecraftServer.java:1133)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.x(MinecraftServer.java:1126)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.c(SourceFile:139)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.i_(MinecraftServer.java:1110)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1021)
+[21:32:30] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$0(MinecraftServer.java:304)
+[21:32:30] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:1623)
+[21:32:49] [Server thread/WARN]: java.io.IOException: Server returned HTTP response code: 500 for URL: http://localhost:1099/local-api/block_mined
+[21:32:49] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1980)
+[21:32:49] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1581)
+[21:32:49] [Server thread/WARN]: 	at com.stocken.taxauth.APIMessage.send(APIMessage.java:55)
+[21:32:49] [Server thread/WARN]: 	at com.stocken.taxauth.OnBlockBreak.onBlockBreak(OnBlockBreak.java:40)
+[21:32:49] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+[21:32:49] [Server thread/WARN]: 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+[21:32:49] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader$1.execute(JavaPluginLoader.java:306)
+[21:32:49] [Server thread/WARN]: 	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[21:32:49] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.fireEvent(SimplePluginManager.java:589)
+[21:32:49] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:576)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:360)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:319)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:287)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.network.PlayerConnection.a(PlayerConnection.java:1569)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:42)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:8)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.network.protocol.PlayerConnectionUtils.lambda$0(PlayerConnectionUtils.java:31)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.TickTask.run(SourceFile:18)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.d(SourceFile:156)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandlerReentrant.d(SourceFile:23)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.b(MinecraftServer.java:1154)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:1)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.x(SourceFile:130)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.bi(MinecraftServer.java:1133)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.x(MinecraftServer.java:1126)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.c(SourceFile:139)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.i_(MinecraftServer.java:1110)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1021)
+[21:32:49] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$0(MinecraftServer.java:304)
+[21:32:49] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:1623)
+[21:33:39] [Server thread/WARN]: java.io.IOException: Server returned HTTP response code: 500 for URL: http://localhost:1099/local-api/block_mined
+[21:33:39] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1980)
+[21:33:39] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1581)
+[21:33:39] [Server thread/WARN]: 	at com.stocken.taxauth.APIMessage.send(APIMessage.java:55)
+[21:33:39] [Server thread/WARN]: 	at com.stocken.taxauth.OnBlockBreak.onBlockBreak(OnBlockBreak.java:40)
+[21:33:39] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+[21:33:39] [Server thread/WARN]: 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+[21:33:39] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader$1.execute(JavaPluginLoader.java:306)
+[21:33:39] [Server thread/WARN]: 	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[21:33:39] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.fireEvent(SimplePluginManager.java:589)
+[21:33:39] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:576)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:360)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:319)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:287)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.network.PlayerConnection.a(PlayerConnection.java:1569)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:42)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:8)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.network.protocol.PlayerConnectionUtils.lambda$0(PlayerConnectionUtils.java:31)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.TickTask.run(SourceFile:18)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.d(SourceFile:156)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandlerReentrant.d(SourceFile:23)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.b(MinecraftServer.java:1154)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:1)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.x(SourceFile:130)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.bi(MinecraftServer.java:1133)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.x(MinecraftServer.java:1126)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.c(SourceFile:139)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.i_(MinecraftServer.java:1110)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1021)
+[21:33:39] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$0(MinecraftServer.java:304)
+[21:33:39] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:1623)
+[21:34:41] [Server thread/WARN]: java.io.IOException: Server returned HTTP response code: 500 for URL: http://localhost:1099/local-api/block_mined
+[21:34:41] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1980)
+[21:34:41] [Server thread/WARN]: 	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1581)
+[21:34:41] [Server thread/WARN]: 	at com.stocken.taxauth.APIMessage.send(APIMessage.java:55)
+[21:34:41] [Server thread/WARN]: 	at com.stocken.taxauth.OnBlockBreak.onBlockBreak(OnBlockBreak.java:40)
+[21:34:41] [Server thread/WARN]: 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+[21:34:41] [Server thread/WARN]: 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+[21:34:41] [Server thread/WARN]: 	at org.bukkit.plugin.java.JavaPluginLoader$1.execute(JavaPluginLoader.java:306)
+[21:34:41] [Server thread/WARN]: 	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:70)
+[21:34:41] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.fireEvent(SimplePluginManager.java:589)
+[21:34:41] [Server thread/WARN]: 	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:576)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:360)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:319)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.level.PlayerInteractManager.a(PlayerInteractManager.java:287)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.network.PlayerConnection.a(PlayerConnection.java:1569)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:42)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.network.protocol.game.PacketPlayInBlockDig.a(SourceFile:8)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.network.protocol.PlayerConnectionUtils.lambda$0(PlayerConnectionUtils.java:31)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.TickTask.run(SourceFile:18)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.d(SourceFile:156)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandlerReentrant.d(SourceFile:23)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.b(MinecraftServer.java:1154)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.d(MinecraftServer.java:1)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.x(SourceFile:130)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.bi(MinecraftServer.java:1133)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.x(MinecraftServer.java:1126)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.util.thread.IAsyncTaskHandler.c(SourceFile:139)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.i_(MinecraftServer.java:1110)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.w(MinecraftServer.java:1021)
+[21:34:41] [Server thread/WARN]: 	at net.minecraft.server.MinecraftServer.lambda$0(MinecraftServer.java:304)
+[21:34:41] [Server thread/WARN]: 	at java.base/java.lang.Thread.run(Thread.java:1623)
+[22:21:24] [Server thread/INFO]: 0x6F6B lost connection: Disconnected
+[22:21:24] [Server thread/INFO]: 0x6F6B left the game
+[22:41:53] [User Authenticator #2/INFO]: UUID of player 0x6F6B is 40d1f02b-437d-4e19-8ddb-29c5b7ed4f0a
+[22:41:53] [Server thread/INFO]: 0x6F6B joined the game
+[22:41:53] [Server thread/INFO]: 0x6F6B[/192.168.50.1:55829] logged in with entity id 1144 at ([world]30.944458710196376, 64.0, -84.37750147236726)
