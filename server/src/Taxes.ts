@@ -9,7 +9,7 @@ export default class Taxes {
      * @param item The item id, i.e. what item has been picked up.
      * @param amount How many of this item has been picked up.
      */
-    public static async RegisterItemPickup(user_id: string, item_id: string, amount: number) {
+    public static async RegisterItemPickup(user_id: string, item_id: string, amount: number): Promise<void> {
         const item: IItemPickups = await ItemPickups.findOne({user_id, item_id})
 
         // If player has not picked up any items with given item id, create new entry.
@@ -25,15 +25,17 @@ export default class Taxes {
         }
         // If the player has picked up items with given id, update.
         new ItemPickups({
-            ...item,
+            user_id: item.user_id,
+            item_id: item.item_id,
             amount: item.amount + amount,
+            date: item.date
         })
         .save()
     }
     /**
      * Generates the tax reports for all players.
      */
-    public static async GenerateTaxReports() {
+    public static async GenerateTaxReports(): Promise<void> {
        const players: Array<IPlayer> = await Player.find({})
     
        const now = Date.now()
@@ -46,7 +48,7 @@ export default class Taxes {
      * Signs the tax report with given id.
      * @param report_id The id of the tax report to be signed.
      */
-    public static async SignTaxReport(report_id) {
+    public static async SignTaxReport(report_id: number): Promise<void> {
         let report: ITaxReport
         try {
              report = await TaxReport.findById(report_id)
@@ -90,13 +92,26 @@ export default class Taxes {
     
         return d
     }
-
+    /**
+     * Deducts the given percentage from an amount of item pickups.
+     * Floors the result. Formula: floor((1-rate) * amount)
+     * @param item The given item
+     * @param fraction How much to remove from the amount.
+     * @returns The item with the amount deducted.
+     */
+    private static Deduct(item: IItemPickups, rate: number): IItemPickups {
+        const decuction = 1 - rate
+        return {
+            ...item,
+            amount: Math.floor(item.amount * decuction)
+        }
+    }
     /**
      * Generates a new tax report for each player, and inserts it into db.
      * @param user_id The guid for the player to generate tax report for.
      * @param timeGenerated The time at which the report was created.
      */
-    private static async GenerateTaxReport(user_id, timeGenerated) {
+    private static async GenerateTaxReport(user_id: string, timeGenerated: number): Promise<void> {
         const items: Array<IItemPickups> = await this.GetItemsPickedUpSinceLastFriday(user_id)
         await new TaxReport({
             player_guid: user_id,
@@ -111,7 +126,7 @@ export default class Taxes {
      * @param user_id guid for the player to get items picked up for.
      * @returns A list of ItemPickups.
      */
-    private static async GetItemsPickedUpSinceLastFriday(user_id): Promise<Array<IItemPickups>> {
+    private static async GetItemsPickedUpSinceLastFriday(user_id: string): Promise<Array<IItemPickups>> {
         const millisSinceLastFriday = this.GetLastFriday().getMilliseconds()
         return ItemPickups.find({user_id, date: { $gt: millisSinceLastFriday }})
     }
