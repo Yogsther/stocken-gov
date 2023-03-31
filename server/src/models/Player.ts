@@ -1,12 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
 
-interface Player {
+export interface IPlayer {
     guid: string
     password: string
     name: string
 }
 
-const playerSchema: Schema = new Schema<Player>({
+const playerSchema: Schema = new Schema<IPlayer>({
     guid: { type: String, required: true },
     password: { type: String, required: true },
     name: { type: String, required: true },

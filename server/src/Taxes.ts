@@ -1,64 +1,122 @@
-/* import Database, { DatabaseKeys, DatabasePath, TaxReport } from "./Database"; */
-import Database from "./Database";
-import { Players } from "./Players";
-import mongoose from "mongoose";
-import GetDatabaseConnection from "./Database";
-
-
-interface IItemPickup {
-    user_id: string;
-    item: string;
-    amount: number;
-    date: Date;
-}
-
-const itemPickupSchema = new mongoose.Schema<IItemPickup>({
-    user_id: { type: String, required: true },
-    item: { type: String, required: true },
-    amount: { type: Number, required: true },
-    date: { type: Date, required: true }
-});
-
-
+import ItemPickups, { IItemPickups } from "./models/ItemPickups";
+import Player, { IPlayer } from "./models/Player";
+import TaxReport, { ITaxReport } from "./models/TaxReport";
 export default class Taxes {
 
-    /* 
-interface IUser {
-    name: string;
-    email: string;
-    avatar?: string;
-} */
-
-    /* const userSchema = new Schema<IUser>({
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        avatar: String
-    }); */
-
-    /* const userSchema = new Schema<IUser>({
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        avatar: String
-    });
+    /**
+     * Registers that an item has been picked up.
+     * @param user_id The guid for the player to register an item pickup for.
+     * @param item The item id, i.e. what item has been picked up.
+     * @param amount How many of this item has been picked up.
      */
+    public static async RegisterItemPickup(user_id: string, item_id: string, amount: number) {
+        const item: IItemPickups = await ItemPickups.findOne({user_id, item_id})
 
-
-
-    public static RegisterItemPickup(user_id: string, item: string, amount: number) {
-        GetDatabaseConnection().then(conn => {
-            const ItemPickups = conn.model('ItemPickups', itemPickupSchema);
-            const itemPickup = new ItemPickups({
+        // If player has not picked up any items with given item id, create new entry.
+        if(item == null) {
+            new ItemPickups({
                 user_id,
-                item,
+                item_id,
                 amount,
-                date: new Date()
-            });
-            itemPickup.save().then(() => {
-                console.log(itemPickup.user_id); // '
-            });
+                date: Date.now()
+            })
+            .save()
+            return
+        }
+        // If the player has picked up items with given id, update.
+        new ItemPickups({
+            user_id,
+            item_id,
+            amount: item.amount + amount,
+            date: Date.now()
         })
+        .save()
+    }
+    /**
+     * Generates the tax reports for all players.
+     */
+    public static async GenerateTaxReports() {
+       const players: Array<IPlayer> = await Player.find({})
+    
+       const now = Date.now()
+
+       for(let player of players) {
+            await this.GenerateTaxReport(player.guid, now)
+       }
+    }
+    /**
+     * Signs the tax report with given id.
+     * @param report_id The id of the tax report to be signed.
+     */
+    public static async SignTaxReport(report_id) {
+        let report: ITaxReport
+        try {
+             report = await TaxReport.findById(report_id)
+        }
+        catch(err){
+            console.error("Could not find tax report with id " + report_id + ".")
+        }
+        await new TaxReport({
+            ...report,
+            signed: true
+        })
+        .save()
     }
 
+    /**
+     * Gets the time and date of exactly one week back from now.
+     * TODO: Should maybe be moved to utility module or class.
+     * @returns Date.
+     */
+    private static GetLastWeek(): Date {
+        const now = Date.now()
+        const weekInmillis = 1000 * 60 * 60 * 24 * 7
+        return new Date(now - weekInmillis)
+    }
+
+    /**
+     * Gets the time of last friday, at 00:00.
+     * TODO: Should maybe be moved to utility module or class.
+     * @returns 
+     */
+    private static GetLastFriday(): Date {
+        let d = new Date()
+        let day = d.getDay()
+        // Could be done with mod instead.
+        let diff = (day <= 5) ? (7 - 5 + day ) : (day - 5)
+    
+        d.setDate(d.getDate() - diff)
+        d.setHours(0)
+        d.setMinutes(0)
+        d.setSeconds(0)
+    
+        return d
+    }
+
+    /**
+     * Generates a new tax report for each player, and inserts it into db.
+     * @param user_id The guid for the player to generate tax report for.
+     * @param timeGenerated The time at which the report was created.
+     */
+    private static async GenerateTaxReport(user_id, timeGenerated) {
+        const items: Array<IItemPickups> = await this.GetItemsPickedUpSinceLastFriday(user_id)
+        await new TaxReport({
+            player_guid: user_id,
+            items,
+            date: timeGenerated,
+            signed: false
+        }).save()
+    }
+
+    /**
+     * Gets items picked up since last friday, for a given player.
+     * @param user_id guid for the player to get items picked up for.
+     * @returns A list of ItemPickups.
+     */
+    private static async GetItemsPickedUpSinceLastFriday(user_id): Promise<Array<IItemPickups>> {
+        const millisSinceLastFriday = this.GetLastFriday().getMilliseconds()
+        return ItemPickups.find({user_id, date: { $gt: millisSinceLastFriday }})
+    }
     /*  public static GetTaxReports(player_guid: string): TaxReport[] {
          return Database.GetAll<TaxReport>(DatabasePath.TAX_REPORTS(player_guid));
      } */
