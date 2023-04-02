@@ -3,11 +3,12 @@ import ItemPickups, { IItemPickups } from '../models/ItemPickups'
 import { ClearMockDatabase, GetMockDatabaseConnection, KillMockDatabase } from '../Database'
 import TaxReport, { ITaxReport } from '../models/TaxReport'
 import Player from '../models/Player'
+import ItemLogger from '../ItemLogger'
 
 beforeAll(async () => await GetMockDatabaseConnection())
 
 test('NoPriorPickupTest', async () => {
-    await Taxes.RegisterItemPickup('test_guid', 'DIAMOND', 20)
+    await ItemLogger.RegisterItemPickup('test_guid', 'DIAMOND', 20)
 
     const item: IItemPickups = await ItemPickups.findOne({user_id: 'test_guid', item_id: 'DIAMOND'})
 
@@ -17,8 +18,8 @@ test('NoPriorPickupTest', async () => {
 
 test('PriorPickupTest', async () => {
     await ItemPickups.deleteMany({user_id: 'test_guid'})
-    await Taxes.RegisterItemPickup('test_guid', 'DIAMOND', 20)
-    await Taxes.RegisterItemPickup('test_guid', 'DIAMOND', 20)
+    await ItemLogger.RegisterItemPickup('test_guid', 'DIAMOND', 20)
+    await ItemLogger.RegisterItemPickup('test_guid', 'DIAMOND', 20)
 
     const item: IItemPickups = await ItemPickups.findOne({user_id: 'test_guid', item_id: 'DIAMOND'})
 
