@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
 export interface IItemPickups {
     user_id: string;

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-export interface IPlayer {
+export interface IPlayer{
     guid: string
     password: string
     name: string
