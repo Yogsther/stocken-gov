@@ -1,10 +1,6 @@
 import express from 'express';
-import Config from './Config';
-/* import Database, { Player } from './Database'; */
-import { PassHash } from './PassHash';
-import { Players } from './Players';
-import Taxes from './Taxes';
-
+import Config from '../Config';
+import ItemLogger from '../ItemLogger';
 
 declare global {
     interface String {
@@ -76,7 +72,7 @@ export default class MinecraftAPI {
             let itemName = c.getArg('itemname');
             let amount = c.getArg('itemamount');
 
-            Taxes.RegisterItemPickup(c.getPlayerGUID(), itemName, parseInt(amount));
+            ItemLogger.RegisterItemPickup(c.getPlayerGUID(), itemName, parseInt(amount));
             c.respond(`Registered ${amount}x ${BlockTranslations[itemName.toUpperCase()]}`.Gray().Italic());
         });
 
@@ -89,8 +85,12 @@ export default class MinecraftAPI {
                  c.respond("Password set!".Green());
              });
          }); */
+         this.app.get(() => {
+            
+         })
+         
 
-        this.addAPI("get_tax_report", (c: APIHelper) => {
+        this.addAPI("get_tax_report", async (c: APIHelper) => {
             /* let player = c.getOrCreatePlayer();
             let report = Taxes.GetOrCreateActiveTaxReport(player.guid);
             let due = Taxes.GetNextDueDate(report);
@@ -107,7 +107,7 @@ export default class MinecraftAPI {
             reportString += `§7Coal: §e${coal}\n`;
 
             c.respond(reportString); */
-            c.respond("HEllo")
+            c.respond("hello")
         });
 
 
