@@ -1,9 +1,11 @@
 import express from 'express';
+import ClientAPI from './api/ClientAPI';
 import Config from './Config';
 
 export default class Webhost {
 
     app: express.Application;
+    clientAPI: ClientAPI;
 
     constructor() {
         this.app = express();
@@ -13,6 +15,8 @@ export default class Webhost {
 
         this.app.listen(Config.getInstance().data.public_port, () => {
             console.log(`Public website server listening on port ${Config.getInstance().data.public_port}`);
-        });
+        })
+
+        this.clientAPI = new ClientAPI(this.app)
     }
 }
