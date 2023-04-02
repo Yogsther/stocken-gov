@@ -4,7 +4,7 @@ export default class TimeUtilities {
      * TODO: Should maybe be moved to utility module or class.
      * @returns Date.
      */
-    static GetLastWeek(): Date {
+    static GetExactlyOneWeekBack(): Date {
         const now = Date.now()
         const weekInmillis = 1000 * 60 * 60 * 24 * 7
         return new Date(now - weekInmillis)
