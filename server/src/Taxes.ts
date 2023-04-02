@@ -1,44 +1,38 @@
-import { HydratedDocument as HD } from "mongoose";
-import ItemPickups, { IItemPickups } from "./models/ItemPickups";
-import Player, { IPlayer } from "./models/Player";
-import TaxReport, { ITaxReport } from "./models/TaxReport";
+import { HydratedDocument as HD } from "mongoose"
+import Config from "./Config"
+import ItemLogger from "./ItemLogger"
+import "./utilities/Maybe"
+import { IItemPickups } from "./models/ItemPickups"
+import Player, { IPlayer } from "./models/Player"
+import TaxReport, { ITaxReport } from "./models/TaxReport"
+import TimeUtilities from "./utilities/TimeUtilities"
 export default class Taxes {
-    static TAX_RATE: number = 0.1
-    /**
-     * Registers that an item has been picked up.
-     * @param user_id The guid for the player to register an item pickup for.
-     * @param item The item id, i.e. what item has been picked up.
-     * @param amount How many of this item has been picked up.
-     */
-    public static async RegisterItemPickup(user_id: string, item_id: string, amount: number): Promise<void> {
-        const item: HD<IItemPickups> = await ItemPickups.findOne({user_id, item_id})
-
-        // If player has not picked up any items with given item id, create new entry.
-        if(item == null) {
-            await new ItemPickups({
-                user_id,
-                item_id,
-                amount,
-                date: Date.now()
-            })
-            .save()
-            return
-        }
-        // If the player has picked up items with given id, update.
-        item.amount = item.amount + amount
-        await item.save()
-    }
     /**
      * Generates the tax reports for all players.
      */
     public static async GenerateTaxReports(): Promise<void> {
        const players: Array<IPlayer> = await Player.find({})
-    
-       const now = Date.now()
 
        for(let player of players) {
-            await this.GenerateTaxReport(player.guid, now)
+            await Taxes.UpsertTaxReport(player.guid)
        }
+    }
+    /**
+     * Gets all tax reports for a given player
+     * @param guid GUID of the player.
+     * @returns The tax reports or Nothing if none exist.
+     */
+    public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>>{
+        const reports: Array<ITaxReport> = await TaxReport.find({player_id: guid})
+        if(reports.length == 0){
+            return Nothing
+        }
+        return reports
+    }
+    public static async GetCurrentTaxReport(guid: string): Promise<ITaxReport> {
+        await Taxes.UpsertTaxReport(guid)
+        const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
+        return await TaxReport.findOne({player_id: guid, date: { $gt: millisLastFriday }})
     }
     /**
      * Signs the tax report with given id.
@@ -57,73 +51,47 @@ export default class Taxes {
     }
 
     /**
-     * Gets the time and date of exactly one week back from now.
-     * TODO: Should maybe be moved to utility module or class.
-     * @returns Date.
-     */
-    private static GetLastWeek(): Date {
-        const now = Date.now()
-        const weekInmillis = 1000 * 60 * 60 * 24 * 7
-        return new Date(now - weekInmillis)
-    }
-
-    /**
-     * Gets the time of last friday, at 00:00.
-     * TODO: Should maybe be moved to utility module or class.
-     * @returns 
-     */
-    private static GetLastFriday(): Date {
-        let d = new Date()
-        let day = d.getDay()
-        // Could be done with mod instead.
-        let diff = (day <= 5) ? (7 - 5 + day ) : (day - 5)
-    
-        d.setDate(d.getDate() - diff)
-        d.setHours(0)
-        d.setMinutes(0)
-        d.setSeconds(0)
-    
-        return d
-    }
-    /**
-     * Deducts the given percentage from an amount of item pickups.
-     * Floors the result. Formula: floor((1-rate) * amount)
+     * Taxes a given amount with the tax rate present in the config.
+     * Floors the result. Formula: floor(rate * amount)
      * @param item The given item
      * @param fraction How much to remove from the amount.
      * @returns The item with the amount deducted.
      */
-    private static ApplyTax(amount: number, rate: number): number {
+    private static ApplyTax(amount: number): number {
+        const rate = Config.getInstance().data.tax_rate
         return Math.floor(amount * rate)
     }
     /**
-     * Generates a new tax report for each player, and inserts it into db.
-     * @param user_id The guid for the player to generate tax report for.
-     * @param timeGenerated The time at which the report was created.
+     * Upserts a tax report for a given user.
+     * @param user_id The guid for the player to upsert tax report for.
      */
-    private static async GenerateTaxReport(user_id: string, timeGenerated: number): Promise<void> {
-        const items: Array<IItemPickups> = await Taxes.GetItemsPickedUpSinceLastFriday(user_id)
-        await new TaxReport({
-            player_guid: user_id,
-            items: Taxes.DecuctItems(items),
-            date: timeGenerated,
-            signed: false
-        }).save()
+    private static async UpsertTaxReport(user_id: string): Promise<void> {
+        const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
+        const report: HD<ITaxReport> = await TaxReport.findOne({player_id: user_id, date: { $gt: millisLastFriday }})
+
+        const items: Array<IItemPickups> = await ItemLogger.GetItemsPickedUpSinceLastFriday(user_id)
+
+        // If no report was found or next tax period has begun, make one.
+        if(report == null || (millisLastFriday + 1000 * 60 * 60 * 24 * 7) < Date.now()) {
+            await new TaxReport({
+                player_guid: user_id,
+                items: Taxes.TaxItems(items),
+                date: Date.now(),
+                signed: false
+            }).save()
+            return
+        }
+        // If a report was found, update its items.
+        report.items = Taxes.TaxItems(items)
+        await report.save()
     }
-    private static DecuctItems(items: Array<IItemPickups>): Map<string, number> {
+    private static TaxItems(items: Array<IItemPickups>): Map<string, number> {
         let resources = new Map<string, number>()
         for(let resource of items) {
-            resources.set(resource.item_id, Taxes.ApplyTax(resource.amount, Taxes.TAX_RATE))
+            resources.set(
+                resource.item_id,
+                Taxes.ApplyTax(resource.amount))
         }
         return resources
-    }
-
-    /**
-     * Gets items picked up since last friday, for a given player.
-     * @param user_id guid for the player to get items picked up for.
-     * @returns A list of ItemPickups.
-     */
-    private static async GetItemsPickedUpSinceLastFriday(user_id: string): Promise<Array<IItemPickups>> {
-        const millisSinceLastFriday = this.GetLastFriday().getMilliseconds()
-    return await ItemPickups.find({user_id, date: { $gt: millisSinceLastFriday }})
     }
 }
