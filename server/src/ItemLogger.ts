@@ -10,6 +10,9 @@ export default class ItemLogger {
      * @param amount How many of this item has been picked up.
      */
     public static async RegisterItemPickup(user_id: string, item_id: string, amount: number): Promise<void> {
+        if(amount <= 0) {
+            throw new Error('Cannot register negative amount of items picked up.')
+        }
         const item: HD<IItemPickups> = await ItemPickups.findOne({user_id, item_id})
 
         // If player has not picked up any items with given item id, create new entry.
