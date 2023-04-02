@@ -2,7 +2,7 @@
 import { model, Schema } from 'mongoose';
 import GetDatabaseConnection from './Database';
 import Database from './Database';
-import MinecraftAPI from './MinecraftAPI';
+import MinecraftAPI from './api/MinecraftAPI';
 import ItemPickups from './models/ItemPickups';
 import Player from './models/Player';
 import Taxes from './Taxes';
@@ -15,14 +15,14 @@ GetDatabaseConnection()
 
 // Note, if guid is the same, will not update existing entry with same guid.
 // a new player will be created with new _id.
-new Player({
+/*new Player({
     guid: "Tester",
     password: "LmAO",
     name: "lol"
-}).save()
+}).save()*/
 
-Taxes.RegisterItemPickup("Tester", "DIAMOND", 2)
-Taxes.GenerateTaxReports()
+//Taxes.RegisterItemPickup("Tester", "DIAMOND", 2)
+//Taxes.GenerateTaxReports()
 //Taxes.SignTaxReport("Tester")
 
 
