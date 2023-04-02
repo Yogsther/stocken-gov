@@ -1,6 +1,6 @@
 import Config from "./Config";
-import { v4 as uuid } from 'uuid';
-import mongoose, { Schema, model, connect } from 'mongoose';
+import mongoose, { connect } from 'mongoose';
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 export default async function GetDatabaseConnection() {
     if (!mongoose.connection.readyState) {
@@ -9,9 +9,31 @@ export default async function GetDatabaseConnection() {
     return mongoose.connection;
 }
 
+let mongoMemoryServer: MongoMemoryServer = null
+
+export async function GetMockDatabaseConnection() {
+    if (!mongoose.connection.readyState) {
+        mongoMemoryServer = await MongoMemoryServer.create()
+        await mongoose.connect(mongoMemoryServer.getUri())
+    }
+    return mongoose.connection
+}
+
+export async function KillMockDatabase() {
+    await mongoMemoryServer.stop()
+}
+export async function ClearMockDatabase() {
+    if(mongoMemoryServer == null) {
+        throw new Error('Attempted to clear real database with clearMockDatabase. Do not do this.')
+    }
+    const collections = mongoose.connection.collections
+    for(const key in collections) {
+        const collection = collections[key]
+        await collection.deleteMany()
+    }
+}
+
 /* 
-
-
 run().catch(err => console.log(err));
 
 async function run() {
