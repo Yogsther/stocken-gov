@@ -6,6 +6,7 @@ export interface ITaxReport {
     player_guid: string
     items: Map<string, number>
     date: number
+    due: number
     signed: boolean
 }
 

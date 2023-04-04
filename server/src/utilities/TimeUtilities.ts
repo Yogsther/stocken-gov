@@ -12,7 +12,6 @@ export default class TimeUtilities {
     
     /**
      * Gets the time of last friday, at 00:00.
-     * TODO: Should maybe be moved to utility module or class.
      * @returns 
      */
     static GetLastFriday(): Date {
@@ -22,10 +21,25 @@ export default class TimeUtilities {
         let diff = (day <= 5) ? (7 - 5 + day ) : (day - 5)
     
         d.setDate(d.getDate() - diff)
+        d = TimeUtilities.SetBeginningOfDay(d)
+    
+        return d
+    }
+    static GetNextFriday() {
+        let result = new Date()
+        const today = new Date()
+        const friday = 4
+
+        result.setDate(today.getDate() + (7 + friday - today.getDay()) % 7)
+
+        result = TimeUtilities.SetBeginningOfDay(result)
+
+        return result
+    }
+    private static SetBeginningOfDay(d: Date): Date {
         d.setHours(0)
         d.setMinutes(0)
         d.setSeconds(0)
-    
         return d
     }
 }

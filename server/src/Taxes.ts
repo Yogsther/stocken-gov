@@ -32,7 +32,8 @@ export default class Taxes {
     public static async GetCurrentTaxReport(guid: string): Promise<ITaxReport> {
         await Taxes.UpsertTaxReport(guid)
         const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
-        return await TaxReport.findOne({player_id: guid, date: { $gt: millisLastFriday }})
+        const now = Date.now()
+        return await TaxReport.findOne({player_id: guid, date: { $gt: millisLastFriday}, due: {$lt: now }})
     }
     /**
      * Signs the tax report with given id.
@@ -77,6 +78,7 @@ export default class Taxes {
                 player_guid: user_id,
                 items: Taxes.TaxItems(items),
                 date: Date.now(),
+                due: TimeUtilities.GetNextFriday(),
                 signed: false
             }).save()
             return
