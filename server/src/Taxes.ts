@@ -17,13 +17,22 @@ export default class Taxes {
             await Taxes.UpsertTaxReport(player.guid)
        }
     }
+    public static async GetDueAndUnsignedTaxReports(guid: number): Promise<Maybe<ITaxReport[]>> {
+        const now = Date.now()
+        // Gets all due and unsiged tax reports.
+        const reports: ITaxReport[] = await TaxReport.find({player_id: guid, signed: false, due: {$lt: now}})
+        if(reports.length == 0) {
+            return Nothing
+        }
+        return reports
+    }
     /**
      * Gets all tax reports for a given player
      * @param guid GUID of the player.
      * @returns The tax reports or Nothing if none exist.
      */
     public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>>{
-        const reports: Array<ITaxReport> = await TaxReport.find({player_id: guid})
+        const reports: ITaxReport[] = await TaxReport.find({player_id: guid})
         if(reports.length == 0){
             return Nothing
         }
@@ -70,7 +79,7 @@ export default class Taxes {
         const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
         const report: HD<ITaxReport> = await TaxReport.findOne({player_id: user_id, date: { $gt: millisLastFriday }})
 
-        const items: Array<IItemPickups> = await ItemLogger.GetItemsPickedUpSinceLastFriday(user_id)
+        const items: IItemPickups[] = await ItemLogger.GetItemsPickedUpSinceLastFriday(user_id)
 
         // If no report was found or next tax period has begun, make one.
         if(report == null || (millisLastFriday + 1000 * 60 * 60 * 24 * 7) < Date.now()) {
