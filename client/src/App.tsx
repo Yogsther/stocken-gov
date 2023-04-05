@@ -2,8 +2,9 @@ import './App.css';
 
 export default function App() {
   return (
-    <div className="App">
-      <p>S T O C K E N</p>
+    <div className='wrapper'>
+      <div id='sidebar'></div>
+      <div id='content'></div>
     </div>
   )
 }

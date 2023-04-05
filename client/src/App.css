@@ -1,3 +1,14 @@
-.App {
-  text-align: center;
+.wrapper {
+  margin: 45px;
+  display: grid;
+  position: relative;
+  background-color: red;
+}
+
+#sidebar {
+  background-color: blue;
+  grid-column: 1;
+  grid-row: 1;
+  height: 100%;
+  width: 100%;
 }
