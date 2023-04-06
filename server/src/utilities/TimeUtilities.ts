@@ -28,7 +28,7 @@ export default class TimeUtilities {
     static GetNextFriday() {
         let result = new Date()
         const today = new Date()
-        const friday = 4
+        const friday = 5
 
         result.setDate(today.getDate() + (7 + friday - today.getDay()) % 7)
 
