@@ -11,7 +11,7 @@ import ClientAPI from './api/ClientAPI';
 
 const localApi = new MinecraftAPI()
 const clientApi = new ClientAPI()
-const webhost = new Webhost()
+//const webhost = new Webhost()
 
 GetDatabaseConnection()
 

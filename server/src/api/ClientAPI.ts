@@ -6,6 +6,7 @@ import {isNothing, Maybe} from '../utilities/Maybe'
 import Player, { IPlayer } from '../models/Player'
 import Token from '../utilities/Token'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 
 /**
  * API for the client.
@@ -28,6 +29,7 @@ export default class ClientAPI {
         // Unsure if the following two lines are nessecary:
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
+        this.app.use(cors())
 
         /**
          * GET: /api/test
@@ -44,8 +46,9 @@ export default class ClientAPI {
          *   password: cleartext password of user.
          */
         this.app.post(this.baseURL + 'login', async (req: Request,res: Response) => {
-            const name: string = req.body.name
+            const name: string = req.body.username
             const password: string = req.body.password
+
 
             if(name == undefined || password == undefined) {
                 res.status(400)
@@ -62,7 +65,7 @@ export default class ClientAPI {
                 return
             }
             res.cookie('token', token)
-            res.send('OK')
+            res.send(token)
         })
 
         // cookieParser is run before Token.VerifyMiddleware

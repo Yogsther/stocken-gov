@@ -1,0 +1,21 @@
+#login-page-container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 3fr 3fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+}
+#login-form {
+    grid-column: 2;
+    grid-row: 2;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#logo-container {
+    grid-column: 3;
+    grid-row: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

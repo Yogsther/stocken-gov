@@ -1,10 +1,25 @@
-import './App.css';
+import { useState } from 'react'
+import LoginPage from './pages/LoginPage'
+import TaxPage from './pages/TaxPage'
+
+import './App.css'
+
+enum Pages {
+  LOGIN,
+  TAX
+}
 
 export default function App() {
-  return (
-    <div className='wrapper'>
-      <div id='sidebar'></div>
-      <div id='content'></div>
-    </div>
-  )
+  const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGIN)
+
+  const onSignIn = () => setCurrentPage(Pages.TAX)
+
+  const getCurrentPage = (): JSX.Element => {
+    switch(currentPage) {
+      case Pages.LOGIN: return <LoginPage onSignIn={onSignIn}/>
+      case Pages.TAX  : return <TaxPage/>
+    }
+  }
+
+  return getCurrentPage()
 }
