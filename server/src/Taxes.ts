@@ -6,6 +6,7 @@ import { IItemPickups } from "./models/ItemPickups"
 import Player, { IPlayer } from "./models/Player"
 import TaxReport, { ITaxReport } from "./models/TaxReport"
 import TimeUtilities from "./utilities/TimeUtilities"
+import { Nothing, Maybe } from "./utilities/Maybe"
 export default class Taxes {
     /**
      * Generates the tax reports for all players.
@@ -38,11 +39,23 @@ export default class Taxes {
         }
         return reports
     }
-    public static async GetCurrentTaxReport(guid: string): Promise<ITaxReport> {
+    public static async GetCurrentTaxReport(guid: string): Promise<Maybe<ITaxReport>> {
+        const player: IPlayer = await Player.findOne({guid})
+        if(player == null){
+            return Nothing
+        }
+
         await Taxes.UpsertTaxReport(guid)
         const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
         const now = Date.now()
-        return await TaxReport.findOne({player_id: guid, date: { $gt: millisLastFriday}, due: {$lt: now }})
+        const report: ITaxReport = await TaxReport.findOne({player_guid: guid, date: { $gt: millisLastFriday}, due: {$gt: now }})
+
+        if(report == null) {
+            console.error("Could not find tax report even though one should be present.")
+            return Nothing
+        }
+        
+        return report
     }
     /**
      * Signs the tax report with given id.
@@ -76,13 +89,18 @@ export default class Taxes {
      * @param user_id The guid for the player to upsert tax report for.
      */
     private static async UpsertTaxReport(user_id: string): Promise<void> {
+        const player: IPlayer = await Player.findOne({guid: user_id})
+        if(player == null) {
+            console.log('Tried to upsert at tax report for non-existent user.')
+            return
+        }
         const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
-        const report: HD<ITaxReport> = await TaxReport.findOne({player_id: user_id, date: { $gt: millisLastFriday }})
+        const oneWeekMillis = 1000 * 60 * 60 * 24 * 7
+        const report: HD<ITaxReport> = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
 
         const items: IItemPickups[] = await ItemLogger.GetItemsPickedUpSinceLastFriday(user_id)
-
         // If no report was found or next tax period has begun, make one.
-        if(report == null || (millisLastFriday + 1000 * 60 * 60 * 24 * 7) < Date.now()) {
+        if(report == null || (millisLastFriday + oneWeekMillis) > Date.now()) {
             await new TaxReport({
                 player_guid: user_id,
                 items: Taxes.TaxItems(items),
