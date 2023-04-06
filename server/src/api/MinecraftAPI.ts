@@ -91,7 +91,7 @@ export default class MinecraftAPI {
                 await new Player({
                     guid: c.getPlayerGUID(),
                     name: c.getPlayerName(),
-                    password: c.getArg('password')
+                    password: hash
                 }).save()
 
                 c.respond("Password set!".Green())
