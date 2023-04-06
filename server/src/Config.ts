@@ -5,6 +5,7 @@ const CONFIG_LOCATION = __dirname + '/../config.json';
 export class ConfigData {
     public minecraft_api_port: number = 1099;
     public public_port: number = 3000;
+    public client_port: number = 2000;
     public tax_rate: number = 0.1;
     public connstring: string = 'mongodb://localhost:27017'
 }

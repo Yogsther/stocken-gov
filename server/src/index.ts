@@ -7,18 +7,20 @@ import ItemPickups from './models/ItemPickups';
 import Player from './models/Player';
 import Taxes from './Taxes';
 import Webhost from './Webhost';
+import ClientAPI from './api/ClientAPI';
 
-const localApi = new MinecraftAPI();
-const webhost = new Webhost();
+const localApi = new MinecraftAPI()
+const clientApi = new ClientAPI()
+const webhost = new Webhost()
 
 GetDatabaseConnection()
 
 // Note, if guid is the same, will not update existing entry with same guid.
 // a new player will be created with new _id.
 /*new Player({
-    guid: "Tester",
-    password: "LmAO",
-    name: "lol"
+    guid: "test",
+    password: "password",
+    name: "popkrull"
 }).save()*/
 
 //Taxes.RegisterItemPickup("Tester", "DIAMOND", 2)
