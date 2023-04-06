@@ -1,6 +1,12 @@
 import express from 'express';
 import Config from '../Config';
 import ItemLogger from '../ItemLogger';
+import Player, { IPlayer } from '../models/Player';
+import { PassHash } from '../utilities/PassHash';
+import { HydratedDocument as HD } from 'mongoose';
+import Taxes from '../Taxes';
+import { ITaxReport } from '../models/TaxReport';
+import { Maybe, isNothing } from '../utilities/Maybe';
 
 declare global {
     interface String {
@@ -76,39 +82,45 @@ export default class MinecraftAPI {
             c.respond(`Registered ${amount}x ${BlockTranslations[itemName.toUpperCase()]}`.Gray().Italic());
         });
 
-        /*  this.addAPI("set_password", (c: APIHelper) => {
-             let player = Players.GetOrCreatePlayer(c.getPlayerGUID(), c.getPlayerName());
-             let password = c.getArg("password");
-             PassHash.toHash(password).then((hash) => {
-                 player.password = hash;
-                 Players.SavePlayer(player);
-                 c.respond("Password set!".Green());
-             });
-         }); */
-         this.app.get(() => {
-            
-         })
-         
+        this.addAPI("set_password", async (c: APIHelper) => {
+             const player: HD<IPlayer> = await Player.findOne({guid: c.getPlayerGUID()})
+             const password = c.getArg("password")
+             const hash = await PassHash.toHash(password)
+
+             if(player == null) {
+                await new Player({
+                    guid: c.getPlayerGUID(),
+                    name: c.getPlayerName(),
+                    password: c.getArg('password')
+                }).save()
+
+                c.respond("Password set!".Green())
+                return
+             }
+
+             player.password = hash
+             await player.save()
+             c.respond("Password set!".Green())
+         }) 
 
         this.addAPI("get_tax_report", async (c: APIHelper) => {
-            /* let player = c.getOrCreatePlayer();
-            let report = Taxes.GetOrCreateActiveTaxReport(player.guid);
-            let due = Taxes.GetNextDueDate(report);
+            let report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(c.getPlayerGUID())
+
+            if(isNothing(report)) {
+                c.res.status(400)
+                c.res.send("No user with GUID " + c.getPlayerGUID() + " found.")
+                return
+            }
+            report = report as ITaxReport
+            const due = new Date(report.due)
             let reportString = "§l§o§6Tax Report -- Due Date: " + due.toLocaleDateString() + "\n\n";
 
-            let gold = Taxes.GetAmountOfItem("RAW_GOLD", report);
-            let iron = Taxes.GetAmountOfItem("RAW_IRON", report);
-            let diamond = Taxes.GetAmountOfItem("DIAMOND", report);
-            let coal = Taxes.GetAmountOfItem("COAL", report);
+            for (const [key, value] of Object.entries(report.items)) {
+                reportString += `${value} ${key}\n`;
+            }
 
-            reportString += `§7Gold: §e${gold}\n`;
-            reportString += `§7Iron: §e${iron}\n`;
-            reportString += `§7Diamond: §e${diamond}\n`;
-            reportString += `§7Coal: §e${coal}\n`;
-
-            c.respond(reportString); */
-            c.respond("hello")
-        });
+            c.respond(reportString)
+        })
 
 
         this.app.listen(Config.getInstance().data.minecraft_api_port, () => {
