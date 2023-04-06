@@ -14,6 +14,7 @@ const taxReportSchema: Schema = new Schema<ITaxReport>({
     player_guid: { type: String, required: true },
     items: { type: Map<string, number>, required: true },
     date: { type: Number, required: true },
+    due: { type: Number, required: true },
     signed: { type: Boolean, required: true },
 })
 
