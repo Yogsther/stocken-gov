@@ -1,0 +1,13 @@
+.item-icon-container {
+    border-radius: 100px;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-10);
+}
+.item-icon-img {
+    image-rendering: pixelated;
+    height: 40px;
+}
