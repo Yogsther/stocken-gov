@@ -1,5 +1,6 @@
-import LoginForm from '../components/LoginForm'
-import Icon from '../assets/svgs/logo.svg'
+import LoginForm from '../../components/LoginForm'
+import './LoginPage.css'
+import Icon from '../../assets/svgs/logo.svg'
 
 interface LoginPageProps {
     onSignIn: () => void

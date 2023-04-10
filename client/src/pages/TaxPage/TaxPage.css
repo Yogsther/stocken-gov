@@ -1,0 +1,10 @@
+.content-column {
+    width: 70%;
+}
+.action-column {
+    width: 30%;
+}
+.tax-overview-container {
+    display: flex;
+    flex-direction: row;
+}

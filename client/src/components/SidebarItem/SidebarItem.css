@@ -1,0 +1,6 @@
+.item-container {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}

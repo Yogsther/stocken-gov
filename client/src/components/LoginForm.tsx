@@ -1,7 +1,6 @@
 import Input from './Input'
 import Button from './Button'
 import VSpace, {Sizing} from './VSpace'
-import '../styles/LoginPage.css'
 import { useState } from 'react'
 
 interface LoginFormProps {

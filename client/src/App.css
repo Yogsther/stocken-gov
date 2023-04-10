@@ -8,21 +8,6 @@
 * {
   font-family: 'Roboto';
 }
-
-.wrapper {
-  margin: 45px;
-  display: grid;
-  position: relative;
-  background-color: red;
-}
-
-#sidebar {
-  background-color: blue;
-  grid-column: 1;
-  grid-row: 1;
-  height: 100%;
-  width: 100%;
-}
 input {
   background-color: var(--gray-5);
   width: 100%;
@@ -55,6 +40,16 @@ h1 {
   font-size: 2rem;
   color: black;
   font-weight: 700;
+}
+h3 {
+  font-size: 1.5rem;
+  color: var(--gray-50);
+  font-weight: 700;
+}
+h4 {
+  font-size: 1.5rem;
+  color: var(--gray-50);
+  font-weight: 500;
 }
 .gray-70 {
   color: var(--gray-70);

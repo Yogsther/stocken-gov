@@ -1,0 +1,7 @@
+interface DefaultIconProps {
+    color: string
+}
+
+export default function DefaultIcon({color}: DefaultIconProps) {
+    return <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" fill={color} viewBox="0 96 960 960"><path d="M478 578Zm1.869 303q-127.253 0-216.061-88.747Q175 703.505 175 576.253 175 449 263.747 359.5q88.748-89.5 216-89.5Q607 270 696.5 359.439q89.5 89.44 89.5 216.692 0 127.253-89.439 216.061Q607.121 881 479.869 881Zm.117-94Q569 787 630 726.014q61-60.986 61-150Q691 487 630.014 426q-60.986-61-150-61Q391 365 330 425.986q-61 60.986-61 150Q269 665 329.986 726q60.986 61 150 61Z"/></svg>
+}
