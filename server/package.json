@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/mongoose": "^5.11.97",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.18.2",
     "mongodb": "^5.1.0",
