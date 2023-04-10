@@ -41,6 +41,11 @@ h1 {
   color: black;
   font-weight: 700;
 }
+h2 {
+  font-size: 1.5rem;
+  color: black;
+  font-weight: 700;
+}
 h3 {
   font-size: 1.5rem;
   color: var(--gray-50);
@@ -64,4 +69,7 @@ h4 {
 .error {
   color: #FF1515;
   transition-duration: 500ms;
+}
+img {
+  -webkit-user-drag: none;
 }
