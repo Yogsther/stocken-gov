@@ -1,14 +1,16 @@
-import Button from "../../components/Button";
-import SidebarLayout from "../../components/SidebarLayout/SidebarLayout";
-import TaxDisplay, { ResouceRow } from "../../components/TaxDisplay/TaxDisplay";
+import Button from "../../components/Button"
+import SidebarLayout from "../../components/SidebarLayout/SidebarLayout"
+import TaxDisplay from "../../components/TaxDisplay/TaxDisplay"
+import TaxForm from "../../components/TaxForm/TaxForm"
 
 import Diamond from '../../assets/pngs/diamond.png'
 import Coal from '../../assets/pngs/coal.png'
 import Gold from '../../assets/pngs/raw_gold.png'
 import Iron from '../../assets/pngs/raw_iron.png'
 
+import ResouceRow from "../../types/ResourceRow"
+
 import './TaxPage.css'
-import TaxFormRow from "../../components/TaxFormRow/TaxFormRow";
 
 /*interface TaxPageProps {
 }*/
@@ -53,7 +55,7 @@ export default function TaxPage(): JSX.Element {
                     <h1>Preliminary Tax</h1>
                     <h4>Week 13</h4>
                     <TaxDisplay rows={mockData}/>
-                    <TaxFormRow icon={Diamond} title='Diamond' subtext='10% tax rate' incomeAmount={10} taxAmount={1} deduct={1} onDeductChange={() => {}}/>
+                    <TaxForm/>
                 </div>
 
                 <div className='action-column'>
