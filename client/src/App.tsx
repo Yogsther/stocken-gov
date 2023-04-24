@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import LoginPage from './pages/LoginPage/LoginPage'
+//import LoginPage from './pages/LoginPage/LoginPage'
 import TaxPage from './pages/TaxPage/TaxPage'
 
 import './App.css'
@@ -10,9 +10,10 @@ enum Pages {
 }
 
 export default function App() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGIN)
 
-  const onSignIn = () => setCurrentPage(Pages.TAX)
+  //const onSignIn = () => setCurrentPage(Pages.TAX)
 
   const getCurrentPage = (): JSX.Element => {
     switch(currentPage) {

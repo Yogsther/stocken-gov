@@ -10,8 +10,8 @@ import Iron from '../../assets/pngs/raw_iron.png'
 import './TaxPage.css'
 import TaxFormRow from "../../components/TaxFormRow/TaxFormRow";
 
-interface TaxPageProps {
-}
+/*interface TaxPageProps {
+}*/
 
 const mockData: ResouceRow[] = [
     {
@@ -44,7 +44,7 @@ const mockData: ResouceRow[] = [
     }
 ]
 
-export default function TaxPage({}: TaxPageProps): JSX.Element {
+export default function TaxPage(): JSX.Element {
 
     return (
         <SidebarLayout>
