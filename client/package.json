@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "echo gov.stocken.okdev.se > ./build/CNAME && gh-pages -d build",
     "lint": "npx eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix --ext .js,.jsx ."
   },
