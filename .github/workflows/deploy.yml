@@ -22,11 +22,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Install dependencies
-    - working-directory: ./client
-    - run: npm ci
+      working-directory: ./client
+      run: npm ci
     - name: Build client app
-    - working-directory: ./client
-    - run: npm run build --if-present
+      working-directory: ./client
+      run: npm run build --if-present
     - name: Deploy
-    - working-directory: ./client
-    - run: npm run deploy
+      working-directory: ./client
+      run: npm run deploy
