@@ -104,8 +104,8 @@ export default class Taxes {
             await new TaxReport({
                 player_guid: user_id,
                 tax: Taxes.TaxItems(items),
-                income: items,
-                deductions: {},
+                income: Taxes.ItemPickupsToMap(items),
+                deductions: new Map<string, number>(),
                 date: Date.now(),
                 due: TimeUtilities.GetNextFriday(),
                 signed: false
