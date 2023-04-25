@@ -18,6 +18,8 @@ import ResouceRow from "../../types/ResourceRow"
 import './TaxPage.css'
 import Declare from "../../components/Declare"
 
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockData: ResouceRow[] = [
     {
         resource: 'Diamond',
