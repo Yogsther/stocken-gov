@@ -12,31 +12,34 @@ enum Pages {
 }
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Pages>(Pages.TAX)
-  const [renderPage, setRenderPage] = useState<boolean>(false)
+  	const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGIN)
+  	const [renderPage, setRenderPage] = useState<boolean>(false)
 
-  useEffect(() => setRenderPage(true), [])
+  	useEffect(() => setRenderPage(true), [])
 
-  const onSignIn = () => setCurrentPage(Pages.TAX)
+	// On first render, if a token exists, change the page to TaxPage.
+	useEffect(() => {document.cookie.includes('token=') && setCurrentPage(Pages.TAX)}, [])
 
-  const getCurrentPage = (): JSX.Element => {
-    switch(currentPage) {
-      case Pages.LOGIN: return <LoginPage onSignIn={onSignIn}/>
-      case Pages.TAX  : return <TaxPage/>
-    }
-  }
+  	const onSignIn = () => setCurrentPage(Pages.TAX)
 
-  return (
-	<TransitionLifecycle
-		transition={{
-			initial:    { opacity: 0, transform: 'translateY(-25px)' },
-			transition: { opacity: 1, transform: 'translateY(0)' },
-			exit:       { opacity: 0, transform: 'translateY(25px)' },
-			duration: 500
-		}}
-		willRender={renderPage}
-	>
-		{getCurrentPage()}
-	</TransitionLifecycle>
+  	const getCurrentPage = (): JSX.Element => {
+    	switch(currentPage) {
+      		case Pages.LOGIN: return <LoginPage onSignIn={onSignIn}/>
+      		case Pages.TAX  : return <TaxPage/>
+    	}
+  	}
+
+  	return (
+		<TransitionLifecycle
+			transition={{
+				initial:    { opacity: 0, transform: 'translateY(-25px)' },
+				transition: { opacity: 1, transform: 'translateY(0)' },
+				exit:       { opacity: 0, transform: 'translateY(25px)' },
+				duration: 500
+			}}
+			willRender={renderPage}
+		>
+			{getCurrentPage()}
+		</TransitionLifecycle>
   )
 }
