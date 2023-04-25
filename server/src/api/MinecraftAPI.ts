@@ -115,7 +115,7 @@ export default class MinecraftAPI {
             const due = new Date(report.due)
             let reportString = "§l§o§6Tax Report -- Due Date: " + due.toLocaleDateString() + "\n\n";
 
-            for (const [key, value] of Object.entries(report.items)) {
+            for (const [key, value] of Object.entries(report.tax)) {
                 reportString += `${value} ${key}\n`;
             }
 

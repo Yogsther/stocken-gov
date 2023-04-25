@@ -1,17 +1,22 @@
-import Button from "../../components/Button";
-import SidebarLayout from "../../components/SidebarLayout/SidebarLayout";
-import TaxDisplay, { ResouceRow } from "../../components/TaxDisplay/TaxDisplay";
+// npm
+import { useState } from "react"
 
+// Components
+import SidebarLayout from "../../components/SidebarLayout/SidebarLayout"
+import TaxOverview from "../../components/TaxOverview"
+
+// Svgs
 import Diamond from '../../assets/pngs/diamond.png'
 import Coal from '../../assets/pngs/coal.png'
 import Gold from '../../assets/pngs/raw_gold.png'
 import Iron from '../../assets/pngs/raw_iron.png'
 
-import './TaxPage.css'
-import TaxFormRow from "../../components/TaxFormRow/TaxFormRow";
+// Types
+import ResouceRow from "../../types/ResourceRow"
 
-/*interface TaxPageProps {
-}*/
+// CSS
+import './TaxPage.css'
+import Declare from "../../components/Declare"
 
 const mockData: ResouceRow[] = [
     {
@@ -44,23 +49,25 @@ const mockData: ResouceRow[] = [
     }
 ]
 
+enum Subpages {
+    OVERVIEW,
+    DECLARE
+  }
+
 export default function TaxPage(): JSX.Element {
+
+    const [currentSubpage, setCurrentSubpage] = useState<Subpages>(Subpages.OVERVIEW)
+
+    const getCurrentPage = (): JSX.Element => {
+        switch(currentSubpage) {
+          case Subpages.OVERVIEW: return <TaxOverview onDeclareAction={() => setCurrentSubpage(Subpages.DECLARE)}/>
+          case Subpages.DECLARE : return <Declare onBack={() => setCurrentSubpage(Subpages.OVERVIEW)}/>
+        }
+      }
 
     return (
         <SidebarLayout>
-            <div className='tax-overview-container'>
-                <div className='content-column'>
-                    <h1>Preliminary Tax</h1>
-                    <h4>Week 13</h4>
-                    <TaxDisplay rows={mockData}/>
-                    <TaxFormRow icon={Diamond} title='Diamond' subtext='10% tax rate' incomeAmount={10} taxAmount={1} deduct={1} onDeductChange={() => {}}/>
-                </div>
-
-                <div className='action-column'>
-                    <h1>Actions</h1>
-                    <Button text='Declare' onClick={() => {}}/>
-                </div>
-            </div>
+			{getCurrentPage()}
         </SidebarLayout>
     )
 }

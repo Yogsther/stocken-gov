@@ -4,11 +4,12 @@ import { PassHash } from "./PassHash";
 import {Request, Response, Next} from 'express'
 
 export default class Token {
+    static DELIMITER = '_'
     /**
      * Checks if a given token on the form [guid].[password hash] is valid.
      */
     static async Verify(token: string): Promise<boolean> {
-        const [guid, password] = token.split('.')
+        const [guid, password] = token.split(Token.DELIMITER)
 
         const player: IPlayer = await Player.findOne({guid})
 
@@ -44,13 +45,13 @@ export default class Token {
             return
         }
         // Set guid on request so that other controllers can use it.
-        const [guid, _] = token.split('.')
+        const [guid, _] = token.split(Token.DELIMITER)
         req.guid = guid
 
         next()
     }
     /**
-     * Generates a token on the form [guid].[password hash] for a given GUID and password (cleartext).
+     * Generates a token on the form [guid][DELIMITER][password hash] for a given GUID and password (cleartext).
      * Does checks whether this player exists and if the password provided is correct.
      * @param guid The GUID of the player to generate a token for.
      * @returns A token or Nothing.
@@ -70,7 +71,7 @@ export default class Token {
             return Nothing
         }
 
-        const hash: string = await PassHash.toHash(player.password)
-        return player.guid + '.' + hash
+        const hash: string = player.password
+        return player.guid + Token.DELIMITER + hash
     }
 }
