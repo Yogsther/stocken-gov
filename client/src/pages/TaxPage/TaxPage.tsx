@@ -1,21 +1,22 @@
-import Button from "../../components/Button"
-import SidebarLayout from "../../components/SidebarLayout/SidebarLayout"
-import TaxDisplay from "../../components/TaxDisplay/TaxDisplay"
-import TaxForm from "../../components/TaxForm/TaxForm"
+// npm
+import { useState } from "react"
 
+// Components
+import SidebarLayout from "../../components/SidebarLayout/SidebarLayout"
+import TaxOverview from "../../components/TaxOverview"
+
+// Svgs
 import Diamond from '../../assets/pngs/diamond.png'
 import Coal from '../../assets/pngs/coal.png'
 import Gold from '../../assets/pngs/raw_gold.png'
 import Iron from '../../assets/pngs/raw_iron.png'
 
+// Types
 import ResouceRow from "../../types/ResourceRow"
 
+// CSS
 import './TaxPage.css'
-import { useState } from "react"
-import BackButton from "../../components/BackButton"
-
-/*interface TaxPageProps {
-}*/
+import Declare from "../../components/Declare"
 
 const mockData: ResouceRow[] = [
     {
@@ -59,8 +60,8 @@ export default function TaxPage(): JSX.Element {
 
     const getCurrentPage = (): JSX.Element => {
         switch(currentSubpage) {
-          case Subpages.OVERVIEW: return getOverview(setCurrentSubpage)
-          case Subpages.DECLARE : return getDeclare(setCurrentSubpage)
+          case Subpages.OVERVIEW: return <TaxOverview onDeclareAction={() => setCurrentSubpage(Subpages.DECLARE)}/>
+          case Subpages.DECLARE : return <Declare onBack={() => setCurrentSubpage(Subpages.OVERVIEW)}/>
         }
       }
 
@@ -69,32 +70,4 @@ export default function TaxPage(): JSX.Element {
 			{getCurrentPage()}
         </SidebarLayout>
     )
-}
-
-function getDeclare(setPage: Function): JSX.Element {
-	return (
-		<>
-			<BackButton text="Return to home" onClick={() => setPage(Subpages.OVERVIEW)}/>
-			<h1>Declare Tax</h1>
-			<h4>Week X</h4>
-			<TaxForm/>
-		</>
-	)
-}
-
-function getOverview(setPage: Function): JSX.Element {
-	return (
-		<div className='tax-overview-container'>
-                <div className='content-column'>
-                    <h1>Preliminary Tax</h1>
-                    <h4>Week 13</h4>
-                    <TaxDisplay rows={mockData}/>
-                </div>
-
-                <div className='action-column'>
-                    <h1>Actions</h1>
-                    <Button text='Declare' onClick={() => setPage(Subpages.DECLARE)}/>
-                </div>
-            </div>
-	)
 }
