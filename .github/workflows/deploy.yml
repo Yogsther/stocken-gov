@@ -28,7 +28,7 @@ jobs:
       working-directory: ./client
     - name: Change to public API in .env file
       working-directory: ./client
-      run: echo REACT_APP_API_URL=https://api.gov.stocken.okdev.se/ >> .env
+      run: echo REACT_APP_API_URL=https://api.gov.stocken.okdev.se >> .env
     - name: Deploy
       working-directory: ./client
       run: |
