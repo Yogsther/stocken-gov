@@ -65,7 +65,7 @@ export default class ClientAPI {
                 return
             }
             res.cookie('token', token)
-            res.send(token)
+            res.send()
         })
 
         // cookieParser is run before Token.VerifyMiddleware

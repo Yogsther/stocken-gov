@@ -17,6 +17,7 @@ export default function LoginForm({onSignIn}: LoginFormProps): JSX.Element {
         fetch(process.env.REACT_APP_API_URL + '/api/login',
             {
                 method: 'POST',
+                credentials: 'include',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,7 +33,6 @@ export default function LoginForm({onSignIn}: LoginFormProps): JSX.Element {
                 setError('Incorrect credentials.')
             }
             if(res.status === 200) {
-                document.cookie = "token=" + await res.text()
                 onSignIn()
             }
         })
