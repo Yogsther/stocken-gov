@@ -4,7 +4,9 @@ import mongoose, { Model, Schema } from 'mongoose';
 // by mongoose. "_id"
 export interface ITaxReport {
     player_guid: string
-    items: Map<string, number>
+    income: Map<string, number>
+    tax: Map<string, number>
+    deductions: Map<string, number>
     date: number
     due: number
     signed: boolean
@@ -12,7 +14,9 @@ export interface ITaxReport {
 
 const taxReportSchema: Schema = new Schema<ITaxReport>({
     player_guid: { type: String, required: true },
-    items: { type: Map<string, number>, required: true },
+    income: { type: Map<string, number>, required: true },
+    tax: { type: Map<string, number>, required: true },
+    deductions: { type: Map<string, number>, required: false },
     date: { type: Number, required: true },
     due: { type: Number, required: true },
     signed: { type: Boolean, required: true },

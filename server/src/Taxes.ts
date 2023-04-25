@@ -103,7 +103,9 @@ export default class Taxes {
         if(report == null || (millisLastFriday + oneWeekMillis) > Date.now()) {
             await new TaxReport({
                 player_guid: user_id,
-                items: Taxes.TaxItems(items),
+                tax: Taxes.TaxItems(items),
+                income: items,
+                deductions: {},
                 date: Date.now(),
                 due: TimeUtilities.GetNextFriday(),
                 signed: false
@@ -111,7 +113,8 @@ export default class Taxes {
             return
         }
         // If a report was found, update its items.
-        report.items = Taxes.TaxItems(items)
+        report.income = this.ItemPickupsToMap(items)
+        report.tax    = Taxes.TaxItems(items)
         await report.save()
     }
     private static TaxItems(items: Array<IItemPickups>): Map<string, number> {
@@ -120,6 +123,15 @@ export default class Taxes {
             resources.set(
                 resource.item_id,
                 Taxes.ApplyTax(resource.amount))
+        }
+        return resources
+    }
+    private static ItemPickupsToMap(items: Array<IItemPickups>): Map<string, number> {
+        let resources = new Map<string, number>()
+        for(let resource of items) {
+            resources.set(
+                resource.item_id,
+                resource.amount)
         }
         return resources
     }
