@@ -1,74 +1,29 @@
-import FormTitleRow from './TitleRow'
-import Row from './Row'
-import Diamond from '../../assets/pngs/diamond.png'
-import Coal from '../../assets/pngs/coal.png'
-import Gold from '../../assets/pngs/raw_gold.png'
-import Iron from '../../assets/pngs/raw_iron.png'
-import VSpace from '../VSpace'
-
-import DeductedResource from '../../types/DeductedResource'
 import { useState } from 'react'
 
-const mockData: DeductedResource[] = [
-    {
-    resourceRow: {
-        resource: 'Diamond',
-        incomeAmount: 20,
-        taxPercent: 10,
-        taxAmount: 2,
-        icon: Diamond
-    },
-    deduct: 0,
-    },
-    {
-        resourceRow: {
-            resource: 'Raw Gold',
-            incomeAmount: 20,
-            taxPercent: 10,
-            taxAmount: 2,
-            icon: Gold
-        },
-        deduct: 0,
-    },
-    {
-        resourceRow: {
-            resource: 'Raw Iron',
-            incomeAmount: 20,
-            taxPercent: 10,
-            taxAmount: 2,
-            icon: Iron
-        },
-        deduct: 0,
-    },
-    {
-        resourceRow: {
-            resource: 'Coal',
-            incomeAmount: 20,
-            taxPercent: 10,
-            taxAmount: 2,
-            icon: Coal
-        },
-        deduct: 0,
-    },
-]
+import FormTitleRow from './TitleRow'
+import Row from './Row'
 
-export default function TaxForm(): JSX.Element {
+import getIcon from '../../utils/getIcon'
+import TaxReport from '../../types/TaxReport'
 
-    const [taxForm, setTaxForm] = useState<DeductedResource[]>(mockData)
+interface TaxFormProps {
+    taxReport: TaxReport
+}
+
+export default function TaxForm({taxReport}: TaxFormProps): JSX.Element {
+
+    // This only works because taxReport is never allowed to be undefined.
+    taxReport.deductions = {}
+    const [taxForm, setTaxForm] = useState<TaxReport>(taxReport)
 
     // This causes an update of the entire state even though only part of it was updated.
     // Should be OK. As long as re-render time is < 16 ms.
     const updateDeduction = (resource: string, amount: number): void => {
-        const index = taxForm.findIndex((dr: DeductedResource) => dr.resourceRow.resource === resource)
-
         // Create copy of state
-        let temp = [...taxForm]
+        let temp: any = {...taxForm}
 
-        // Calculate new deduction with prior state.
-        temp[index] = {
-            ...temp[index],
-            deduct: amount
-        }
+        // This is also so hacky :(.
+        temp.deductions![resource] = amount
         setTaxForm(temp)
     }
 
@@ -84,18 +39,23 @@ export default function TaxForm(): JSX.Element {
     )
 }
 
-function getRows(rows: DeductedResource[], onDeductChange: (arg0: string, arg1: number) => void) {
-    return rows.map((row: DeductedResource) => <><Row
-                    icon={row.resourceRow.icon}
-                    title={row.resourceRow.resource}
-                    subtext={row.resourceRow.taxPercent + ' % tax rate'}
-                    incomeAmount={row.resourceRow.incomeAmount}
-                    taxAmount={row.resourceRow.taxAmount}
-                    deduct={row.deduct}
-                    onDeductChange={(amount: number) => onDeductChange(row.resourceRow.resource, amount)}
-                    key={row.resourceRow.resource}
-                />
-                <VSpace/>
-                </>
-    )
+function getRows(report: TaxReport, onDeductChange: (arg0: string, arg1: number) => void): JSX.Element[] {
+    let rows: JSX.Element[] = []
+
+    for(const key in report.income) {
+        let value = report.income[key]
+        rows.push(
+            <Row
+                icon={getIcon(key)}
+                title={key}
+                subtext={10 + ' % tax rate'} // Replace with call to API
+                incomeAmount={value}
+                taxAmount={report.tax[key]}
+                deduct={report.deductions[key] === undefined ? 0 : report.deductions[key] }
+                onDeductChange={(amount: number) => onDeductChange(key, amount)}
+                key={key}
+            />
+        )
+    }
+    return rows
 }

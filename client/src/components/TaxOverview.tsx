@@ -1,15 +1,8 @@
 import useFetch from "../hooks/useFetch"
-import ResourceRow from "../types/ResourceRow"
-import TaxReport from "../types/TaxReport"
+import TaxReport, { TaxReportToResourceRowArr } from "../types/TaxReport"
 import Button from "./Button"
 import Spinner from "./Spinner/Spinner"
 import TaxDisplay from "./TaxDisplay/TaxDisplay"
-
-import Diamond from '../assets/pngs/diamond.png'
-import Coal from '../assets/pngs/coal.png'
-import Gold from '../assets/pngs/raw_gold.png'
-import Iron from '../assets/pngs/raw_iron.png'
-import UnknownIcon from '../assets/pngs/unknown.png'
 
 interface TaxOverviewProps {
     onDeclareAction: () => void
@@ -19,7 +12,11 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
 
     const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
 
-    if(loading) return <Spinner/>
+    if(loading) return (
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%'}}>
+            <Spinner/>
+        </div>
+    )
 
     if(error) return (
         <>
@@ -29,12 +26,18 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
         </>
     )
 
+    const date = new Date(data!.due)
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    const month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()
+    const year = date.getFullYear()
+
 	return (
 		<div className='tax-overview-container'>
                 <div className='content-column'>
                     <h1>Preliminary Tax</h1>
-                    <h4>Week 13</h4>
+                    <h4>Week {getWeek(date)}</h4>
                     <TaxDisplay rows={TaxReportToResourceRowArr(data!)}/>
+                    <p style={{fontWeight: 700}}>Delcare by: {year}-{month}-{day}</p>
                 </div>
 
                 <div className='action-column'>
@@ -45,30 +48,11 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
 	)
 }
 
-function TaxReportToResourceRowArr(report: TaxReport): ResourceRow[] {
-    let resources: ResourceRow[] = []
-    console.log(report.income)
-
-    for(const key in report.income) {
-        const value = report.income[key]
-        resources.push({
-            resource: key,
-            incomeAmount: value,
-            taxPercent: 10,
-            // TODO: This is wrong. Dont calculate tax based on magic number in frontend. Use report.tax field.
-            taxAmount: Math.floor(value * 0.1),
-            icon: getIcon(key)
-        })
-    }
-    return resources
-}
-
-function getIcon(key: string) {
-    switch(key) {
-        case "DIAMOND":  return Diamond
-        case "COAL":     return Coal
-        case "RAW_IRON": return Iron
-        case "RAW_GOLD": return Gold
-        default:         return UnknownIcon
-    }
+// Copied from GitHub
+// https://gist.github.com/IamSilviu/5899269
+// Should maybe be moved, lowers cohesion of TaxOverview.
+function getWeek(today: Date) {
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const pastDaysOfYear = (today.valueOf() - firstDayOfYear.valueOf()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 }
