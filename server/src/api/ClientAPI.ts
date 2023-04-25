@@ -29,7 +29,10 @@ export default class ClientAPI {
         // Unsure if the following two lines are nessecary:
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
-        this.app.use(cors())
+        this.app.use(cors({
+	    origin: 'https://gov.stocken.okdev.se',
+            credentials: true
+	}))
 
         /**
          * GET: /api/test
