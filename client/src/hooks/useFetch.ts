@@ -21,7 +21,7 @@ export default function useFetchJSON<T>(url: string): FetchRequest<T> {
 
 	useEffect(() => {
 		setLoading(true)
-		fetch(url, {credentials: 'include'})
+		fetch(url, {credentials: 'include', mode: 'cors'})
 			.then(res => res.text())
 			.then(text => JSON.parse(text))
 			.then(data => setData(data))
