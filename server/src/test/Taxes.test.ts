@@ -35,7 +35,7 @@ test('BasicTaxReportTest', async () => {
     await Taxes.GenerateTaxReports()
 
     const taxreport: ITaxReport = await TaxReport.findOne({player_guid: 'test_guid'})
-    expect(taxreport.items.get('DIAMOND')).toBe(4)
+    expect(taxreport.income.get('DIAMOND')).toBe(4)
 })
 
 afterAll(async () => {
