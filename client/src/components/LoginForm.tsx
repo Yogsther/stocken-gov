@@ -14,7 +14,7 @@ export default function LoginForm({onSignIn}: LoginFormProps): JSX.Element {
     const [error, setError] = useState<string>('_')
 
     const handleSignIn = () => {
-        fetch('http://localhost:2000/api/login',
+        fetch(process.env.REACT_APP_API_URL + '/api/login',
             {
                 method: 'POST',
                 mode: 'cors',
