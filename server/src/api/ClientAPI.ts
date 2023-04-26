@@ -2,7 +2,7 @@ import express, { Application, Request, Response, Next } from 'express'
 import Taxes from '../Taxes'
 import { ITaxReport } from '../models/TaxReport'
 import Config from '../Config'
-import {isNothing, Maybe} from '../utilities/Maybe'
+import { isNothing, Maybe } from '../utilities/Maybe'
 import Player, { IPlayer } from '../models/Player'
 import Token from '../utilities/Token'
 import cookieParser from 'cookie-parser'
@@ -30,9 +30,9 @@ export default class ClientAPI {
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
         this.app.use(cors({
-	    origin: 'https://gov.stocken.okdev.se',
+            origin: ['https://gov.stocken.okdev.se', "http://localhost:3000"],
             credentials: true
-	}))
+        }))
 
         /**
          * GET: /api/test
@@ -48,12 +48,12 @@ export default class ClientAPI {
          *   name:     username of user.
          *   password: cleartext password of user.
          */
-        this.app.post(this.baseURL + 'login', async (req: Request,res: Response) => {
+        this.app.post(this.baseURL + 'login', async (req: Request, res: Response) => {
             const name: string = req.body.username
             const password: string = req.body.password
 
 
-            if(name == undefined || password == undefined) {
+            if (name == undefined || password == undefined) {
                 res.status(400)
                 res.send('Missing credentials.')
                 return
@@ -62,7 +62,7 @@ export default class ClientAPI {
             // Token.Generate authenticates the user.
             const token: Maybe<string> = await Token.Generate(name, password)
 
-            if(isNothing(token)) {
+            if (isNothing(token)) {
                 res.status(401)
                 res.send('Incorrect credentials.')
                 return
@@ -88,7 +88,7 @@ export default class ClientAPI {
             const guid = req.guid
 
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
-            if(isNothing(report)){
+            if (isNothing(report)) {
                 res.send('No reports found.')
                 return
             }
@@ -97,11 +97,11 @@ export default class ClientAPI {
         /**
          * GET: /api/player
          */
-        this.app.get(this.baseURL + 'player', async (req: Request,res: Response) => {
+        this.app.get(this.baseURL + 'player', async (req: Request, res: Response) => {
             const guid = req.guid
-            const player: IPlayer = await Player.findOne({guid})
+            const player: IPlayer = await Player.findOne({ guid })
 
-            if(player == null) {
+            if (player == null) {
                 res.send('No player with GUID ' + guid + ' found.')
                 return
             }

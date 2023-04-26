@@ -15,9 +15,7 @@ Startup guide 0. Install nodejs
 The plugin listens for block breaks of iron, gold, diamond and coal.
 It then sends the income to the node server.
 
-Startup guide
+See instructions in plugin\README.md
 
-0. Install maven
-1. Build the plugin with `mvn clean install`
-2. Copy the jar file from the target folder to the plugins folder of your minecraft server
-3. Start the server
+There is a test minecraft server in `mc-test-server`. When building the plugin, it will be copied to the plugins folder of the test server.
+Note: The minecraft server runs on port 25566
