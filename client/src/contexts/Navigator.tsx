@@ -20,11 +20,9 @@ export default function Navigator() {
 
     const [currentPage, setCurrentPage] = useState(Pages.LOGIN)
 
-    const onSignIn = () => setCurrentPage(Pages.TAX)
-
     const getCurrentPage = (): JSX.Element => {
     	switch(currentPage) {
-      		case Pages.LOGIN: return <LoginPage onSignIn={onSignIn}/>
+      		case Pages.LOGIN: return <LoginPage/>
       		case Pages.TAX  : return <TaxPage/>
             default         : return <NotYetImplementedPage/>
     	}
