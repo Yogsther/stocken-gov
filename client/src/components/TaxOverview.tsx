@@ -1,6 +1,6 @@
 import useFetch from "../hooks/useFetch"
 import TaxReport, { TaxReportToResourceRowArr } from "../types/TaxReport"
-import Button from "./Button"
+import Button from "./Button/Button"
 import Spinner from "./Spinner/Spinner"
 import TaxDisplay from "./TaxDisplay/TaxDisplay"
 
