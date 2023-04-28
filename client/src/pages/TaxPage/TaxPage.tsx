@@ -16,7 +16,8 @@ import ResouceRow from "../../types/ResourceRow"
 
 // CSS
 import './TaxPage.css'
-import Declare from "../../components/Declare"
+import Declare from "../../components/Declare/Declare"
+import DeclareConfirmation from "../../components/DeclareConfirmation"
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,7 +54,8 @@ const mockData: ResouceRow[] = [
 
 enum Subpages {
     OVERVIEW,
-    DECLARE
+    DECLARE,
+    DECLARE_CONFIRMATION
   }
 
 export default function TaxPage(): JSX.Element {
@@ -63,7 +65,8 @@ export default function TaxPage(): JSX.Element {
     const getCurrentPage = (): JSX.Element => {
         switch(currentSubpage) {
           case Subpages.OVERVIEW: return <TaxOverview onDeclareAction={() => setCurrentSubpage(Subpages.DECLARE)}/>
-          case Subpages.DECLARE : return <Declare onBack={() => setCurrentSubpage(Subpages.OVERVIEW)}/>
+          case Subpages.DECLARE : return <Declare onBack={() => setCurrentSubpage(Subpages.OVERVIEW)} onSubmitSuccess={() => setCurrentSubpage(Subpages.DECLARE_CONFIRMATION)}/>
+          case Subpages.DECLARE_CONFIRMATION: return <DeclareConfirmation onBack={() => setCurrentSubpage(Subpages.OVERVIEW)}/>
         }
       }
 
