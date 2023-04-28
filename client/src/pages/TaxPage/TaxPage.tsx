@@ -56,7 +56,19 @@ enum Subpages {
     OVERVIEW,
     DECLARE,
     DECLARE_CONFIRMATION
-  }
+}
+
+/**
+ * The tax-section of the site.
+ * 
+ *
+ * Example usage:
+ *     <TaxPage/>
+ *
+ * @author Christoffer Billman
+ * @version 1.0
+ * @since 2023-04-10
+ */
 
 export default function TaxPage(): JSX.Element {
 
