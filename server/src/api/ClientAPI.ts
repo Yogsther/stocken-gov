@@ -86,6 +86,7 @@ export default class ClientAPI {
 
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
             if(isNothing(report)){
+                res.status(404)
                 res.send('No reports found.')
                 return
             }
