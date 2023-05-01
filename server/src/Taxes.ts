@@ -94,7 +94,7 @@ export default class Taxes {
             console.log('Tried to upsert at tax report for non-existent user.')
             return
         }
-        const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
+        const millisLastFriday = TimeUtilities.GetLastFriday().getTime()
         const oneWeekMillis = 1000 * 60 * 60 * 24 * 7
         const report: HD<ITaxReport> = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
 
