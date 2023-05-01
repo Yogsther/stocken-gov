@@ -73,6 +73,7 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
 
     const [theme, setTheme] = useState<Theme>(lightTheme)
 
+    // Synchronize browser CSS with react state.
     useEffect(() => {
         document.documentElement.style.setProperty('--text', theme.text)
         document.documentElement.style.setProperty('--background', theme.background)
