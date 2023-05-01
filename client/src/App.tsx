@@ -1,8 +1,14 @@
+// React
 import { useEffect, useState } from 'react'
 
+// Components
 import TransitionLifecycle from './components/TransitionLifecycle'
-import Navigator from './contexts/Navigator'
 
+// Context
+import Navigator from './contexts/Navigator'
+import ThemeContextProvider from './contexts/ThemeContext'
+
+// CSS
 import './App.css'
 
 export default function App() {
@@ -20,7 +26,9 @@ export default function App() {
 			}}
 			willRender={renderPage}
 		>
-			<Navigator/>
+			<ThemeContextProvider>
+				<Navigator/>
+			</ThemeContextProvider>
 		</TransitionLifecycle>
   )
 }

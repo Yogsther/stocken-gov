@@ -2,6 +2,9 @@ import LoginForm from '../../components/LoginForm'
 import './LoginPage.css'
 import Icon from '../../assets/svgs/logo.svg'
 import { Pages, useNavigation } from '../../contexts/Navigator'
+import { useSetTheme } from '../../contexts/ThemeContext'
+import Button from '../../components/Button/Button'
+import { darkTheme, lightTheme } from '../../contexts/ThemeContext'
 
 /**
  * Login-page on the site.
