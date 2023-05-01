@@ -21,12 +21,23 @@ export default function useFetchJSON<T>(url: string): FetchRequest<T> {
 
 	useEffect(() => {
 		setLoading(true)
-		fetch(url, {credentials: 'include'})
-			.then(res => res.text())
-			.then(text => JSON.parse(text))
-			.then(data => setData(data))
-			.catch(err => setError(err))
-		console.log('fetched data!')
+		const fetchData = async () => {
+			try {
+				const res = await fetch(url, {credentials: 'include'})
+			
+				const body = await res.text()
+				if(!res.ok) {
+				setError(new Error(body))
+				return
+				}
+				const obj: T = await JSON.parse(body)
+				setData(obj)
+			}
+			catch(err: any) {
+				setError(err)
+			}
+		}
+		fetchData()
 	}, [url])
 
 	useEffect(() => {
