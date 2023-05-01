@@ -1,23 +1,11 @@
 import { HydratedDocument as HD } from "mongoose"
 import Config from "./Config"
-import ItemLogger from "./ItemLogger"
 import "./utilities/Maybe"
-import { IItemPickups } from "./models/ItemPickups"
 import Player, { IPlayer } from "./models/Player"
 import TaxReport, { ITaxReport } from "./models/TaxReport"
 import TimeUtilities from "./utilities/TimeUtilities"
 import { Nothing, Maybe } from "./utilities/Maybe"
 export default class Taxes {
-    /**
-     * Generates the tax reports for all players.
-     */
-    public static async GenerateTaxReports(): Promise<void> {
-       const players: Array<IPlayer> = await Player.find({})
-
-       for(let player of players) {
-            await Taxes.UpsertTaxReport(player.guid)
-       }
-    }
     public static async GetDueAndUnsignedTaxReports(guid: number): Promise<Maybe<ITaxReport[]>> {
         const now = Date.now()
         // Gets all due and unsiged tax reports.
@@ -45,7 +33,6 @@ export default class Taxes {
             return Nothing
         }
 
-        await Taxes.UpsertTaxReport(guid)
         const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
         const now = Date.now()
         const report: ITaxReport = await TaxReport.findOne({player_guid: guid, date: { $gt: millisLastFriday}, due: {$gt: now }})
@@ -85,10 +72,14 @@ export default class Taxes {
         return Math.floor(amount * rate)
     }
     /**
-     * Upserts a tax report for a given user.
-     * @param user_id The guid for the player to upsert tax report for.
+     * Updates the income in a given players tax report, with the given item_id and amount.
+     * @param user_id The guid for the player to update income for.
      */
-    private static async UpsertTaxReport(user_id: string): Promise<void> {
+    public static async UpdateIncome(user_id: string, item_id: string, amount: number): Promise<void> {
+        if(amount <= 0) {
+            throw new Error('Cannot register negative amount of items picked up.')
+        }
+
         const player: IPlayer = await Player.findOne({guid: user_id})
         if(player == null) {
             console.log('Tried to upsert at tax report for non-existent user.')
@@ -96,43 +87,37 @@ export default class Taxes {
         }
         const millisLastFriday = TimeUtilities.GetLastFriday().getTime()
         const oneWeekMillis = 1000 * 60 * 60 * 24 * 7
-        const report: HD<ITaxReport> = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
+        let report: HD<ITaxReport> = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
 
-        const items: IItemPickups[] = await ItemLogger.GetItemsPickedUpSinceLastFriday(user_id)
-        // If no report was found or next tax period has begun, make one.
+        // Generate a report if one doesn't exist, or new tax period has begun.
         if(report == null || (millisLastFriday + oneWeekMillis) > Date.now()) {
             await new TaxReport({
                 player_guid: user_id,
-                tax: Taxes.TaxItems(items),
-                income: Taxes.ItemPickupsToMap(items),
+                tax: new Map<string, number>(),
+                income: new Map<string, number>(),
                 deductions: new Map<string, number>(),
                 date: Date.now(),
                 due: TimeUtilities.GetNextFriday(),
                 signed: false
             }).save()
+        }
+
+        report = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
+
+        // If no report is found now, something is very wrong.
+        if(report == null) {
+            console.log('Could not find a tax report even though one should be present in UpdateIncome.')
             return
         }
-        // If a report was found, update its items.
-        report.income = this.ItemPickupsToMap(items)
-        report.tax    = Taxes.TaxItems(items)
+        
+        let amountBefore = report.income.get(item_id)
+
+        // If the item does not exist in the map, we set the beforeAmount of this item to 0.
+        if(amountBefore === undefined) amountBefore = 0
+
+        report.income.set(item_id, amountBefore + amount)
+        report.tax.set(item_id, Taxes.ApplyTax(amountBefore + amount))
+
         await report.save()
-    }
-    private static TaxItems(items: Array<IItemPickups>): Map<string, number> {
-        let resources = new Map<string, number>()
-        for(let resource of items) {
-            resources.set(
-                resource.item_id,
-                Taxes.ApplyTax(resource.amount))
-        }
-        return resources
-    }
-    private static ItemPickupsToMap(items: Array<IItemPickups>): Map<string, number> {
-        let resources = new Map<string, number>()
-        for(let resource of items) {
-            resources.set(
-                resource.item_id,
-                resource.amount)
-        }
-        return resources
     }
 }
