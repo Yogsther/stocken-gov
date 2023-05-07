@@ -4,12 +4,21 @@
   --gray-20: rgba(0,0,0,0.2);
   --gray-10: rgba(0,0,0,0.1);
   --gray-5:  rgba(0,0,0,0.05);
+  --text  : black; 
+  --background: white;
+  --inverted-text: white;
+  --color: black;
+  --muted: rgba(0,0,0,0.7);
+}
+body {
+  background-color: var(--background);
 }
 * {
   font-family: 'Roboto';
 }
 input {
   background-color: var(--gray-5);
+  color: var(--text);
   width: 100%;
   box-sizing: border-box;
   height: 50px;
@@ -19,8 +28,6 @@ input {
   font-size: 1rem;
 }
 button {
-  background-color: black;
-  color: white;
   font-size: 1rem;
   box-sizing: border-box;
   width: 100%;
@@ -36,19 +43,22 @@ button {
   opacity: 1;
 }
 
+p {
+  color: var(--text);
+}
 h1 {
   font-size: 2rem;
-  color: black;
+  color: var(--text);
   font-weight: 700;
 }
 h2 {
   font-size: 1.5rem;
-  color: black;
+  color: var(--text);
   font-weight: 700;
 }
 h3 {
   font-size: 1.5rem;
-  color: var(--gray-50);
+  color: var(--text);
   font-weight: 700;
 }
 h4 {
@@ -63,7 +73,7 @@ h4 {
   color: var(--gray-50);
 }
 .muted-text {
-  color: var(--gray-70);
+  color: var(--muted);
   font-size: 0.75rem;
 }
 .error {

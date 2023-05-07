@@ -1,0 +1,8 @@
+.submit-container {
+    display: flex;
+    gap: 32px;
+}
+.sign-container {
+    width: fit-content;
+    gap: 24px;
+}

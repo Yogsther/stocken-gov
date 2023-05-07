@@ -1,15 +1,16 @@
-import useFetch from "../hooks/useFetch"
-import TaxReport from "../types/TaxReport"
 import BackButton from "./BackButton"
-import Spinner from "./Spinner/Spinner"
-import TaxForm from "./TaxForm/TaxForm"
+import TaxDisplay from "./TaxDisplay/TaxDisplay"
 
-interface DeclareProps {
+import TaxReport, { TaxReportToResourceRowArr } from "../types/TaxReport"
+import useFetch from "../hooks/useFetch"
+import Spinner from "./Spinner/Spinner"
+
+interface DeclareConfirmationProps {
     onBack: () => void
 }
 
-export default function Declare({onBack}: DeclareProps): JSX.Element {
-    
+export default function DeclareConfirmation({onBack}: DeclareConfirmationProps): JSX.Element {
+
     const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
 
     if(loading) return (
@@ -25,15 +26,14 @@ export default function Declare({onBack}: DeclareProps): JSX.Element {
             <p>{error.message}</p>
         </>
     )
-
-    // Data will never be undefined when rendering has gotten to this point,
-    // therefore the non-null assertion on data.
+    
 	return (
 		<>
 			<BackButton text="Return to home" onClick={onBack}/>
-			<h1>Declare Tax</h1>
+			<h1>Tax report submitted</h1>
 			<h4>Week X</h4>
-			<TaxForm taxReport={data!}/>
+            <p>The following resources have to be deposited in the town hall within 5 minutes.</p>
+			<TaxDisplay rows={TaxReportToResourceRowArr(data!)}/>
 		</>
 	)
 }

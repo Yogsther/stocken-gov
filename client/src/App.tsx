@@ -1,33 +1,20 @@
+// React
 import { useEffect, useState } from 'react'
-//import LoginPage from './pages/LoginPage/LoginPage'
-import TaxPage from './pages/TaxPage/TaxPage'
 
-import './App.css'
+// Components
 import TransitionLifecycle from './components/TransitionLifecycle'
-import LoginPage from './pages/LoginPage/LoginPage'
 
-enum Pages {
-  LOGIN,
-  TAX
-}
+// Context
+import Navigator from './contexts/Navigator'
+import ThemeContextProvider from './contexts/ThemeContext'
+
+// CSS
+import './App.css'
 
 export default function App() {
-  	const [currentPage, setCurrentPage] = useState<Pages>(Pages.LOGIN)
   	const [renderPage, setRenderPage] = useState<boolean>(false)
 
   	useEffect(() => setRenderPage(true), [])
-
-	// On first render, if a token exists, change the page to TaxPage.
-	useEffect(() => {document.cookie.includes('token=') && setCurrentPage(Pages.TAX)}, [])
-
-  	const onSignIn = () => setCurrentPage(Pages.TAX)
-
-  	const getCurrentPage = (): JSX.Element => {
-    	switch(currentPage) {
-      		case Pages.LOGIN: return <LoginPage onSignIn={onSignIn}/>
-      		case Pages.TAX  : return <TaxPage/>
-    	}
-  	}
 
   	return (
 		<TransitionLifecycle
@@ -39,7 +26,9 @@ export default function App() {
 			}}
 			willRender={renderPage}
 		>
-			{getCurrentPage()}
+			<ThemeContextProvider>
+				<Navigator/>
+			</ThemeContextProvider>
 		</TransitionLifecycle>
   )
 }

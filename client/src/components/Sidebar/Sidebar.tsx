@@ -6,8 +6,11 @@ import Courthouse from '../../assets/svgs/Courthouse'
 import Map from '../../assets/svgs/Map'
 
 import PACKAGE_JSON from '../../../package.json'
+import { Pages, useNavigation } from '../../contexts/Navigator'
 
 export default function Sidebar() {
+
+    const navigate = useNavigation()
 
     return (
         <>
@@ -17,9 +20,9 @@ export default function Sidebar() {
             </div>
 
             <div className='sidebar-items'>
-                <SidebarItem text='Tax' icon={<Money color='var(--gray-20)'/>} onClick={() => ''}/>
-                <SidebarItem text='Law' icon={<Courthouse color='var(--gray-20)'/>} onClick={() => ''}/>
-                <SidebarItem text='Map' icon={<Map color='var(--gray-20)'/>} onClick={() => ''}/>
+                <SidebarItem text='Tax' icon={<Money color='var(--gray-20)'/>} onClick={() => navigate(Pages.TAX)}/>
+                <SidebarItem text='Law' icon={<Courthouse color='var(--gray-20)'/>} onClick={() => navigate(Pages.NOT_IMPLEMENTED)}/>
+                <SidebarItem text='Map' icon={<Map color='var(--gray-20)'/>} onClick={() => navigate(Pages.NOT_IMPLEMENTED)}/>
             </div>
         </div>
         <p style={{marginBottom: 0, fontWeight: 500}} className='gray-50'>{PACKAGE_JSON.name}</p>

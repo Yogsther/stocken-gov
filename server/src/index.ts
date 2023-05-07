@@ -3,7 +3,6 @@ import { model, Schema } from 'mongoose';
 import GetDatabaseConnection from './Database';
 import Database from './Database';
 import MinecraftAPI from './api/MinecraftAPI';
-import ItemPickups from './models/ItemPickups';
 import Player from './models/Player';
 import Taxes from './Taxes';
 import Webhost from './Webhost';

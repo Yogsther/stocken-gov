@@ -1,6 +1,5 @@
 import express from 'express';
 import Config from '../Config';
-import ItemLogger from '../ItemLogger';
 import Player, { IPlayer } from '../models/Player';
 import { PassHash } from '../utilities/PassHash';
 import { HydratedDocument as HD } from 'mongoose';
@@ -78,7 +77,7 @@ export default class MinecraftAPI {
             let itemName = c.getArg('itemname');
             let amount = c.getArg('itemamount');
 
-            ItemLogger.RegisterItemPickup(c.getPlayerGUID(), itemName, parseInt(amount));
+            Taxes.UpdateIncome(c.getPlayerGUID(), itemName, parseInt(amount));
             c.respond(`Registered ${amount}x ${BlockTranslations[itemName.toUpperCase()]}`.Gray().Italic());
         });
 

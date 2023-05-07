@@ -1,5 +1,5 @@
 import Input from './Input'
-import Button from './Button'
+import Button from './Button/Button'
 import VSpace, {Sizing} from './VSpace'
 import { useState } from 'react'
 
