@@ -82,11 +82,11 @@ export default class MinecraftAPI {
         });
 
         this.addAPI("set_password", async (c: APIHelper) => {
-             const player: HD<IPlayer> = await Player.findOne({guid: c.getPlayerGUID()})
-             const password = c.getArg("password")
-             const hash = await PassHash.toHash(password)
+            const player: HD<IPlayer> = await Player.findOne({ guid: c.getPlayerGUID() })
+            const password = c.getArg("password")
+            const hash = await PassHash.toHash(password)
 
-             if(player == null) {
+            if (player == null) {
                 await new Player({
                     guid: c.getPlayerGUID(),
                     name: c.getPlayerName(),
@@ -95,17 +95,17 @@ export default class MinecraftAPI {
 
                 c.respond("Password set!".Green())
                 return
-             }
+            }
 
-             player.password = hash
-             await player.save()
-             c.respond("Password set!".Green())
-         }) 
+            player.password = hash
+            await player.save()
+            c.respond("Password set!".Green())
+        })
 
         this.addAPI("get_tax_report", async (c: APIHelper) => {
             let report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(c.getPlayerGUID())
 
-            if(isNothing(report)) {
+            if (isNothing(report)) {
                 c.res.status(400)
                 c.res.send("No user with GUID " + c.getPlayerGUID() + " found.")
                 return

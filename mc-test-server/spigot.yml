@@ -93,6 +93,7 @@ world-settings:
       tick-inactive-villagers: true
       ignore-spectators: false
     entity-tracking-range:
+      display: 128
       players: 48
       animals: 48
       monsters: 48
