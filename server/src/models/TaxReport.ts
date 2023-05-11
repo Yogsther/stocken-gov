@@ -3,6 +3,7 @@ import mongoose, { Model, Schema } from 'mongoose';
 // Removed id field because an id field is automatically added
 // by mongoose. "_id"
 export interface ITaxReport {
+    _id: any
     player_guid: string
     income: Map<string, number>
     tax: Map<string, number>
