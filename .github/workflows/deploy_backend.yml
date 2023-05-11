@@ -20,5 +20,5 @@ jobs:
           cd ~/stocken-gov/server
           git pull
           npm ci
-          sudo -S <<< ${{ secrets.SSH_KEY }} npm run build
+          echo ${{ secrets.SSH_KEY }} | sudo -S npm run build
           sudo pm2 restart gov
