@@ -1,12 +1,12 @@
 import express from 'express';
 import Config from '../Config';
-import ItemLogger from '../ItemLogger';
 import Player, { IPlayer } from '../models/Player';
 import { PassHash } from '../utilities/PassHash';
 import { HydratedDocument as HD } from 'mongoose';
 import Taxes from '../Taxes';
 import { ITaxReport } from '../models/TaxReport';
 import { Maybe, isNothing } from '../utilities/Maybe';
+import Players from '../Players';
 
 declare global {
     interface String {
@@ -74,29 +74,19 @@ export default class MinecraftAPI {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
 
-        this.addAPI('block_mined', (c: APIHelper) => {
+        this.addAPI('block_mined', async (c: APIHelper) => {
             let itemName = c.getArg('itemname');
             let amount = c.getArg('itemamount');
 
-            ItemLogger.RegisterItemPickup(c.getPlayerGUID(), itemName, parseInt(amount));
+            let player: HD<IPlayer> = await Players.GetOrCreatePlayer(c.getPlayerGUID(), c.getPlayerName());
+            Taxes.UpdateIncome(c.getPlayerGUID(), itemName, parseInt(amount));
             c.respond(`Registered ${amount}x ${BlockTranslations[itemName.toUpperCase()]}`.Gray().Italic());
         });
 
         this.addAPI("set_password", async (c: APIHelper) => {
-            const player: HD<IPlayer> = await Player.findOne({ guid: c.getPlayerGUID() })
+            const player: HD<IPlayer> = await Players.GetOrCreatePlayer(c.getPlayerGUID(), c.getPlayerName())
             const password = c.getArg("password")
             const hash = await PassHash.toHash(password)
-
-            if (player == null) {
-                await new Player({
-                    guid: c.getPlayerGUID(),
-                    name: c.getPlayerName(),
-                    password: hash
-                }).save()
-
-                c.respond("Password set!".Green())
-                return
-            }
 
             player.password = hash
             await player.save()

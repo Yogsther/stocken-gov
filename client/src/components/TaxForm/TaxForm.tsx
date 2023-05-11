@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import FormTitleRow from './TitleRow'
 import Row from './Row'
 
@@ -8,19 +6,18 @@ import TaxReport from '../../types/TaxReport'
 
 interface TaxFormProps {
     taxReport: TaxReport
+    setTaxForm: any
 }
 
-export default function TaxForm({taxReport}: TaxFormProps): JSX.Element {
+export default function TaxForm({taxReport, setTaxForm}: TaxFormProps): JSX.Element {
 
     // This only works because taxReport is never allowed to be undefined.
-    taxReport.deductions = {}
-    const [taxForm, setTaxForm] = useState<TaxReport>(taxReport)
 
     // This causes an update of the entire state even though only part of it was updated.
     // Should be OK. As long as re-render time is < 16 ms.
     const updateDeduction = (resource: string, amount: number): void => {
         // Create copy of state
-        let temp: any = {...taxForm}
+        let temp: any = {...taxReport}
 
         // This is also so hacky :(.
         temp.deductions![resource] = amount
@@ -33,7 +30,7 @@ export default function TaxForm({taxReport}: TaxFormProps): JSX.Element {
                 <FormTitleRow/>
             </thead>
             <tbody>
-                {getRows(taxForm, updateDeduction)}
+                {getRows(taxReport, updateDeduction)}
             </tbody>
         </table>
     )

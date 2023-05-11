@@ -11,7 +11,7 @@ export default interface TaxReport {
     income: any
     tax: any
     deductions: any
-    date: number
+    valid_until: number
     due: number
     signed: boolean
 }

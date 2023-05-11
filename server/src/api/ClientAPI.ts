@@ -7,6 +7,7 @@ import Player, { IPlayer } from '../models/Player'
 import Token from '../utilities/Token'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { HydratedDocument as HD } from "mongoose"
 
 /**
  * API for the client.
@@ -88,11 +89,54 @@ export default class ClientAPI {
             const guid = req.guid
 
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
+
             if (isNothing(report)) {
+                res.status(404)
                 res.send('No reports found.')
                 return
             }
             res.send(report)
+        })
+
+        /**
+         * GET: /api/signReport
+         */
+        this.app.get(this.baseURL + 'signReport', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            console.log('Signing report for ' + guid + "!!!!!!!!!!!!!")
+
+            const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
+
+            if (isNothing(report)) {
+                res.status(404)
+                res.send('Report not found.')
+                return
+            }
+
+            await Taxes.SignTaxReport((report as ITaxReport)._id)
+
+            res.send(await Taxes.GetCurrentTaxReport(guid))
+        })
+        /**
+         * GET: /api/deductReport
+         */
+        this.app.post(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
+            const guid = req.guid;
+            let report: Maybe<HD<ITaxReport>> = await Taxes.GetTaxReportFromId(req.body._id)
+
+            if (isNothing(report)) {
+                res.status(404)
+                res.send('Report not found.')
+                return
+            }
+
+            console.log(req.body)
+
+            let typedReport = report as HD<ITaxReport>
+            typedReport.deductions = req.body.deductions
+            typedReport.save()
+            res.send('Deductions saved.')
         })
         /**
          * GET: /api/player
