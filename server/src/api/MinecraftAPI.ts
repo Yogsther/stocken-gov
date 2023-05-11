@@ -79,7 +79,6 @@ export default class MinecraftAPI {
             let amount = c.getArg('itemamount');
 
             let player: HD<IPlayer> = await Players.GetOrCreatePlayer(c.getPlayerGUID(), c.getPlayerName());
-
             Taxes.UpdateIncome(c.getPlayerGUID(), itemName, parseInt(amount));
             c.respond(`Registered ${amount}x ${BlockTranslations[itemName.toUpperCase()]}`.Gray().Italic());
         });

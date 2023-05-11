@@ -28,13 +28,17 @@ export default class TimeUtilities {
         return d
     }
 
-    static GetNextSaturday() {
+    static GetNextSaturday(): number {
         let result = new Date()
         const today = new Date()
         const saturday = 7
         result.setDate(today.getDate() + (TimeUtilities.DAYS_IN_WEEK + saturday - today.getDay()) % TimeUtilities.DAYS_IN_WEEK)
         result = TimeUtilities.SetBeginningOfDay(result)
-        return result
+        return result.getTime()
+    }
+
+    static DaysInMillis(days: number): number {
+        return 1000 * 60 * 60 * 24 * days
     }
 
 

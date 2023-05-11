@@ -3,6 +3,7 @@ import { HydratedDocument as HD } from "mongoose";
 
 export default class Players {
     public static async GetOrCreatePlayer(guid: string, name: string): Promise<HD<IPlayer>> {
+
         let player: HD<IPlayer> = await Player.findOne({ guid });
 
         if (player == null) {
@@ -11,8 +12,9 @@ export default class Players {
                 name,
                 password: null
             }).save();
+            return await this.GetOrCreatePlayer(guid, name);
         }
 
-        return this.GetOrCreatePlayer(guid, name);
+        return player;
     }
 }

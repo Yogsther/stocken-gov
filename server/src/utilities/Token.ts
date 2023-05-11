@@ -47,7 +47,6 @@ export default class Token {
         // Set guid on request so that other controllers can use it.
         const [guid, _] = token.split(Token.DELIMITER)
         req.guid = guid
-
         next()
     }
     /**
@@ -61,7 +60,7 @@ export default class Token {
         // Find a player by name, CASE INSENSITIVE.
         const player: IPlayer = await Player.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } })
 
-        if (player == null) {
+        if (player == null || player.password == null) {
             console.log('Tried to generate a token for a non-existent player')
             return Nothing
         }

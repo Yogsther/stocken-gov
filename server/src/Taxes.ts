@@ -49,13 +49,15 @@ export default class Taxes {
                 tax: new Map<string, number>(),
                 income: new Map<string, number>(),
                 deductions: new Map<string, number>(),
-                date: Date.now(),
-                due: TimeUtilities.GetNextSaturday(),
+                valid_until: TimeUtilities.GetNextSaturday(),
+                due: TimeUtilities.GetNextSaturday() + TimeUtilities.DaysInMillis(2),
                 signed: false
             }).save()
+
+            return this.GetOrCreateValidTaxReport(guid)
         }
 
-        return this.GetOrCreateValidTaxReport(guid)
+        return report as HD<ITaxReport>
     }
 
 
@@ -74,6 +76,15 @@ export default class Taxes {
         report.signed = true
         await report.save()
     }
+
+    public static async GetTaxReportFromId(report_id: number): Promise<Maybe<HD<ITaxReport>>> {
+        const report: HD<ITaxReport> = await TaxReport.findById(report_id)
+        if (report == null) {
+            return Nothing
+        }
+        return report
+    }
+
 
     /**
      * Taxes a given amount with the tax rate present in the config.
@@ -110,7 +121,6 @@ export default class Taxes {
 
         report.income.set(item_id, amountBefore + amount)
         report.tax.set(item_id, Taxes.ApplyTax(amountBefore + amount))
-
         await report.save()
     }
 }

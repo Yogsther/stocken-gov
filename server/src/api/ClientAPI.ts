@@ -104,9 +104,11 @@ export default class ClientAPI {
         this.app.get(this.baseURL + 'signReport', async (req: Request, res: Response) => {
             const guid = req.guid
 
+            console.log('Signing report for ' + guid + "!!!!!!!!!!!!!")
+
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
 
-            if(isNothing(report)){
+            if (isNothing(report)) {
                 res.status(404)
                 res.send('Report not found.')
                 return
@@ -120,7 +122,17 @@ export default class ClientAPI {
          * GET: /api/signReport
          */
         this.app.get(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
-            /* NOT YET IMPLEMENTED */
+            const guid = req.guid;
+            let report = await Taxes.GetTaxReportFromId(req.body._id);
+
+            if (isNothing(report)) {
+                res.status(404);
+                res.send('Report not found.');
+                return;
+            }
+
+
+
         })
         /**
          * GET: /api/player
