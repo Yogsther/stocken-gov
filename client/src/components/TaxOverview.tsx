@@ -28,8 +28,6 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
 
     if(data === undefined) return (<></>) // To stop IDE from complaining about data possibly being undefined
 
-    
-    const textCopy = data?.signed? "Declared on" : "Declare by"
     let textColor = 'black'
     if(data?.signed) textColor = '#1ae86c' // Green
     else if(data?.due < Date.now()) textColor = '#e81a39' // Red

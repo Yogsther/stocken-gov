@@ -1,6 +1,5 @@
 import React from "react"
 import './SignableField.css'
-import ThemeContextProvider, { Theme, useTheme } from "../../contexts/ThemeContext"
 
 interface SignableFieldProps {
     setHasBeenSigned: React.Dispatch<React.SetStateAction<boolean>>
@@ -10,7 +9,6 @@ export default function SignableField({ setHasBeenSigned }: SignableFieldProps) 
     let canvasRef = React.useRef<HTMLCanvasElement>(null)
 
     let mouseDown = false
-    let lastMousePosition: any = null
     let drawn_frames = 0
 
     function getMousePosition(e: MouseEvent): { x: number, y: number } {
@@ -73,6 +71,7 @@ export default function SignableField({ setHasBeenSigned }: SignableFieldProps) 
             canvas.addEventListener('mouseup', handleMouseUp)
             canvas.addEventListener('mousemove', handleMouseMove)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
