@@ -4,7 +4,8 @@ interface ButtonProps {
     text: string
     onClick: () => void
     Icon?: any
-    width?: string
+    width?: string,
+    disabled?: boolean
 }
 
 /**
@@ -30,8 +31,8 @@ interface ButtonProps {
  * @since 2023-04-06
  */
 
-export default function Button({text, onClick ,width = '100%', Icon}: ButtonProps): JSX.Element {
+export default function Button({ text, onClick, width = '100%', Icon, disabled = false }: ButtonProps): JSX.Element {
     return (
-        <button onClick={onClick} style={{width}}> {Icon !== undefined && <Icon color='var(--inverted-text)'/>} {text}</button>
+        <button disabled={disabled} onClick={onClick} style={{ width }}> {Icon !== undefined && <Icon color={disabled ? 'var(--text)' : 'var(--inverted-text)'} />} {text}</button>
     )
 }
