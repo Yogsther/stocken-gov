@@ -9,7 +9,9 @@ export default class TimeUtilities {
         const weekInmillis = 1000 * 60 * 60 * 24 * 7
         return new Date(now - weekInmillis)
     }
-    
+
+    static DAYS_IN_WEEK = 7
+
     /**
      * Gets the time of last friday, at 00:00.
      * @returns 
@@ -18,24 +20,28 @@ export default class TimeUtilities {
         let d = new Date()
         let day = d.getDay()
         // Could be done with mod instead.
-        let diff = (day <= 5) ? (7 - 5 + day ) : (day - 5)
-    
+        let diff = (day <= 5) ? (7 - 5 + day) : (day - 5)
+
         d.setDate(d.getDate() - diff)
         d = TimeUtilities.SetBeginningOfDay(d)
-    
+
         return d
     }
-    static GetNextFriday() {
+
+    static GetNextSaturday(): number {
         let result = new Date()
         const today = new Date()
-        const friday = 6
-
-        result.setDate(today.getDate() + (7 + friday - today.getDay()) % 7)
-
+        const saturday = 7
+        result.setDate(today.getDate() + (TimeUtilities.DAYS_IN_WEEK + saturday - today.getDay()) % TimeUtilities.DAYS_IN_WEEK)
         result = TimeUtilities.SetBeginningOfDay(result)
-
-        return result
+        return result.getTime()
     }
+
+    static DaysInMillis(days: number): number {
+        return 1000 * 60 * 60 * 24 * days
+    }
+
+
     private static SetBeginningOfDay(d: Date): Date {
         d.setHours(0)
         d.setMinutes(0)

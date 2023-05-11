@@ -1,8 +1,14 @@
 button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background-color: var(--color);
-    color: var(--inverted-text)
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color);
+  color: var(--inverted-text);
+}
+
+button:disabled {
+  background-color: var(--gray-20);
+  color: var(--text);
+  cursor: not-allowed;
 }

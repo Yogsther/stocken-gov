@@ -1,7 +1,7 @@
 import Player, { IPlayer } from "../models/Player";
 import { Nothing, Maybe } from "./Maybe";
 import { PassHash } from "./PassHash";
-import {Request, Response, Next} from 'express'
+import { Request, Response, Next } from 'express'
 
 export default class Token {
     static DELIMITER = '_'
@@ -11,9 +11,9 @@ export default class Token {
     static async Verify(token: string): Promise<boolean> {
         const [guid, password] = token.split(Token.DELIMITER)
 
-        const player: IPlayer = await Player.findOne({guid})
+        const player: IPlayer = await Player.findOne({ guid })
 
-        if(player == null) {
+        if (player == null) {
             return false
         }
 
@@ -28,10 +28,10 @@ export default class Token {
      * @param next Express next function
      * @returns void
      */
-    static async VerifyAndAddGUIDToReq(req: Request,res: Response, next: Next) {
+    static async VerifyAndAddGUIDToReq(req: Request, res: Response, next: Next) {
         const token = req.cookies.token
 
-        if(token == undefined) {
+        if (token == undefined) {
             res.status(401)
             res.send('Token is missing.')
             return
@@ -39,7 +39,7 @@ export default class Token {
 
         const authenticated: boolean = await Token.Verify(token)
 
-        if(!authenticated) {
+        if (!authenticated) {
             res.status(401)
             res.send('Invalid token.')
             return
@@ -47,7 +47,6 @@ export default class Token {
         // Set guid on request so that other controllers can use it.
         const [guid, _] = token.split(Token.DELIMITER)
         req.guid = guid
-
         next()
     }
     /**
@@ -57,16 +56,18 @@ export default class Token {
      * @returns A token or Nothing.
      */
     static async Generate(name: string, cleartextPassword: string): Promise<Maybe<string>> {
-        const player: IPlayer = await Player.findOne({name})
 
-        if(player == null) {
+        // Find a player by name, CASE INSENSITIVE.
+        const player: IPlayer = await Player.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } })
+
+        if (player == null || player.password == null) {
             console.log('Tried to generate a token for a non-existent player')
             return Nothing
         }
 
         const authenticated: boolean = await PassHash.compare(player.password, cleartextPassword)
 
-        if(!authenticated) {
+        if (!authenticated) {
             console.log('Tried to generate a token provided a wrong password.')
             return Nothing
         }

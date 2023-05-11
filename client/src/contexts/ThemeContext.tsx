@@ -43,7 +43,7 @@ export const darkTheme: Theme = {
 
 // Context to store theme state and setters.
 export const ThemeContextState = createContext<Theme>(lightTheme)
-export const ThemeContextSetter = createContext<React.Dispatch<React.SetStateAction<Theme>>>(() => {})
+export const ThemeContextSetter = createContext<React.Dispatch<React.SetStateAction<Theme>>>(() => { })
 
 /**
  * Provides a function that can be used to change the current theme.
@@ -69,7 +69,7 @@ interface ThemeContextProviderProps {
  * @version 1.0
  * @since 2023-04-28
  */
-export default function ThemeContextProvider({children}: ThemeContextProviderProps) {
+export default function ThemeContextProvider({ children }: ThemeContextProviderProps) {
 
     const [theme, setTheme] = useState<Theme>(lightTheme)
 

@@ -4,13 +4,13 @@ import "./utilities/Maybe"
 import Player, { IPlayer } from "./models/Player"
 import TaxReport, { ITaxReport } from "./models/TaxReport"
 import TimeUtilities from "./utilities/TimeUtilities"
-import { Nothing, Maybe } from "./utilities/Maybe"
+import { Nothing, Maybe, isNothing } from "./utilities/Maybe"
 export default class Taxes {
     public static async GetDueAndUnsignedTaxReports(guid: number): Promise<Maybe<ITaxReport[]>> {
         const now = Date.now()
         // Gets all due and unsiged tax reports.
-        const reports: ITaxReport[] = await TaxReport.find({player_id: guid, signed: false, due: {$lt: now}})
-        if(reports.length == 0) {
+        const reports: ITaxReport[] = await TaxReport.find({ player_id: guid, signed: false, due: { $lt: now } })
+        if (reports.length == 0) {
             return Nothing
         }
         return reports
@@ -20,30 +20,47 @@ export default class Taxes {
      * @param guid GUID of the player.
      * @returns The tax reports or Nothing if none exist.
      */
-    public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>>{
-        const reports: ITaxReport[] = await TaxReport.find({player_id: guid})
-        if(reports.length == 0){
+    public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>> {
+        const reports: ITaxReport[] = await TaxReport.find({ player_id: guid })
+        if (reports.length == 0) {
             return Nothing
         }
         return reports
     }
+
     public static async GetCurrentTaxReport(guid: string): Promise<Maybe<ITaxReport>> {
-        const player: IPlayer = await Player.findOne({guid})
-        if(player == null){
-            return Nothing
-        }
-
-        const millisLastFriday = TimeUtilities.GetLastFriday().getMilliseconds()
         const now = Date.now()
-        const report: ITaxReport = await TaxReport.findOne({player_guid: guid, date: { $gt: millisLastFriday}, due: {$gt: now }})
+        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, valid_until: { $gt: now } })
 
-        if(report == null) {
-            console.error("Could not find tax report even though one should be present.")
+        if (report == null)
             return Nothing
-        }
-        
+
         return report
     }
+
+    public static async GetOrCreateValidTaxReport(guid: string): Promise<HD<ITaxReport>> {
+
+        let report = await Taxes.GetCurrentTaxReport(guid)
+        const now = Date.now()
+
+        if (isNothing(report) || (report as ITaxReport).valid_until < now) {
+            await new TaxReport({
+                player_guid: guid,
+                tax: new Map<string, number>(),
+                income: new Map<string, number>(),
+                deductions: new Map<string, number>(),
+                valid_until: TimeUtilities.GetNextSaturday(),
+                due: TimeUtilities.GetNextSaturday() + TimeUtilities.DaysInMillis(2),
+                signed: false
+            }).save()
+
+            return this.GetOrCreateValidTaxReport(guid)
+        }
+
+        return report as HD<ITaxReport>
+    }
+
+
     /**
      * Signs the tax report with given id.
      * @param report_id The id of the tax report to be signed.
@@ -51,14 +68,23 @@ export default class Taxes {
     public static async SignTaxReport(report_id: number): Promise<void> {
         let report: HD<ITaxReport>
         try {
-             report = await TaxReport.findById(report_id)
+            report = await TaxReport.findById(report_id)
         }
-        catch(err){
+        catch (err) {
             console.error("Could not find tax report with id " + report_id + ".")
         }
         report.signed = true
         await report.save()
     }
+
+    public static async GetTaxReportFromId(report_id: number): Promise<Maybe<HD<ITaxReport>>> {
+        const report: HD<ITaxReport> = await TaxReport.findById(report_id)
+        if (report == null) {
+            return Nothing
+        }
+        return report
+    }
+
 
     /**
      * Taxes a given amount with the tax rate present in the config.
@@ -76,48 +102,25 @@ export default class Taxes {
      * @param user_id The guid for the player to update income for.
      */
     public static async UpdateIncome(user_id: string, item_id: string, amount: number): Promise<void> {
-        if(amount <= 0) {
+        if (amount <= 0) {
             throw new Error('Cannot register negative amount of items picked up.')
         }
 
-        const player: IPlayer = await Player.findOne({guid: user_id})
-        if(player == null) {
+        const player: IPlayer = await Player.findOne({ guid: user_id })
+        if (player == null) {
             console.log('Tried to upsert at tax report for non-existent user.')
             return
         }
-        const millisLastFriday = TimeUtilities.GetLastFriday().getTime()
-        const oneWeekMillis = 1000 * 60 * 60 * 24 * 7
-        let report: HD<ITaxReport> = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
 
-        // Generate a report if one doesn't exist, or new tax period has begun.
-        if(report == null || (millisLastFriday + oneWeekMillis) > Date.now()) {
-            await new TaxReport({
-                player_guid: user_id,
-                tax: new Map<string, number>(),
-                income: new Map<string, number>(),
-                deductions: new Map<string, number>(),
-                date: Date.now(),
-                due: TimeUtilities.GetNextFriday(),
-                signed: false
-            }).save()
-        }
+        let report: HD<ITaxReport> = await Taxes.GetOrCreateValidTaxReport(user_id)
 
-        report = await TaxReport.findOne({player_guid: user_id, date: { $gt: millisLastFriday }})
-
-        // If no report is found now, something is very wrong.
-        if(report == null) {
-            console.log('Could not find a tax report even though one should be present in UpdateIncome.')
-            return
-        }
-        
         let amountBefore = report.income.get(item_id)
 
         // If the item does not exist in the map, we set the beforeAmount of this item to 0.
-        if(amountBefore === undefined) amountBefore = 0
+        if (amountBefore === undefined) amountBefore = 0
 
         report.income.set(item_id, amountBefore + amount)
         report.tax.set(item_id, Taxes.ApplyTax(amountBefore + amount))
-
         await report.save()
     }
 }
