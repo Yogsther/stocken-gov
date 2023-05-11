@@ -1,0 +1,5 @@
+#signable-field {
+  background-color: var(--gray-5);
+  border: none;
+  border-radius: 10px;
+}

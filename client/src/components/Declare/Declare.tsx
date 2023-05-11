@@ -9,6 +9,7 @@ import TaxForm from "../TaxForm/TaxForm"
 import VSpace from "../VSpace"
 
 import './Declare.css'
+import SignableField from "../SignableField/SignableField"
 
 interface DeclareProps {
     onBack: () => void
@@ -20,6 +21,8 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
     const { data, loading, error } = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
 
     const [submitError, setSubmitError] = useState('')
+
+    const [hasSigned, setHasSigned] = useState(false)
 
     const handleSubmitForm = () => {
         console.log(data)
@@ -71,11 +74,11 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
             <VSpace />
             <div className='sign-container'>
                 <p>Sign here:</p>
-                <input style={{ height: '100px' }}></input>
+                <SignableField setHasBeenSigned={setHasSigned} />
                 <VSpace />
                 <div className='submit-container'>
                     <p className='muted-text'>Signing and submitting is an irreversible action. Once the tax form is submitted, you are legally bound to pay the amounts submitted.</p>
-                    <Button width='200px' text='Submit' onClick={handleSubmitForm} Icon={DeclareIcon} />
+                    <Button width='200px' text='Submit' disabled={!hasSigned} onClick={handleSubmitForm} Icon={DeclareIcon} />
                 </div>
                 {submitError !== '' && <p>Something went wrong when saving deductions. Please try again later.</p>}
             </div>
