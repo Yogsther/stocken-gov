@@ -1,0 +1,24 @@
+name: Deploy backend API
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install ssh client
+      run: sudo apt-get install openssh-client
+    - name: Deploy code
+      uses: appleboy/ssh-action@master
+      with:
+        host: mc.stocken.okdev.se
+        username: stocken
+        password: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ~/stocken-gov/server
+          git pull
+          npm i
+          npm build
+          sudo pm2 restart gov
