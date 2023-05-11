@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DeclareIcon from "../../assets/svgs/DeclareIcon"
 import useFetch from "../../hooks/useFetch"
 import TaxReport from "../../types/TaxReport"
@@ -19,6 +19,12 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
 
     const { data, loading, error } = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
 
+    const [taxForm, setTaxForm] = useState<TaxReport>(data!)
+
+    useEffect(() => {
+        if(data !== undefined) setTaxForm(data)
+    }, [data])
+
     const [submitError, setSubmitError] = useState('')
 
     const handleSubmitForm = () => {
@@ -32,7 +38,7 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(taxForm)
             }
         )
             .then(async (res) => {
@@ -67,7 +73,7 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
             <BackButton text='Return to home' onClick={onBack} />
             <h1>Declare Tax</h1>
             <h4>Week X</h4>
-            <TaxForm taxReport={data!} />
+            <TaxForm taxReport={data!} setTaxForm={setTaxForm} />
             <VSpace />
             <div className='sign-container'>
                 <p>Sign here:</p>
