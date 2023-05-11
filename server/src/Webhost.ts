@@ -2,6 +2,7 @@ import express from 'express';
 import ClientAPI from './api/ClientAPI';
 import Config from './Config';
 
+////// DEPRECATED //////
 export default class Webhost {
 
     app: express.Application;

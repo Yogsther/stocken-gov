@@ -1,0 +1,6 @@
+com\stocken\taxauth\APIMessage$APIArgument.class
+com\stocken\taxauth\comands\SetPassword.class
+com\stocken\taxauth\APIMessage.class
+com\stocken\taxauth\comands\TaxReport.class
+com\stocken\taxauth\Plugin.class
+com\stocken\taxauth\OnBlockBreak.class

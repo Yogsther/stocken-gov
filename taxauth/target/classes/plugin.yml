@@ -1,0 +1,11 @@
+name: taxauth
+main: com.stocken.taxauth.Plugin
+version: 0.1
+api-version: 1.19
+commands:
+  setpassword:
+    description: Set your tax account password
+    usage: /setpassword <password>
+  taxreport:
+    description: View your tax report
+    usage: /taxreport
