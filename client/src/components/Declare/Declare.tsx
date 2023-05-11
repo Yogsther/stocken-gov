@@ -1,3 +1,4 @@
+import { useState } from "react"
 import DeclareIcon from "../../assets/svgs/DeclareIcon"
 import useFetch from "../../hooks/useFetch"
 import TaxReport from "../../types/TaxReport"
@@ -18,9 +19,30 @@ export default function Declare({onBack, onSubmitSuccess}: DeclareProps): JSX.El
     
     const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
 
+    const [submitError, setSubmitError] = useState('')
+
     const handleSubmitForm = () => {
-        // Submit tax form.
-        onSubmitSuccess()
+        console.log(data)
+
+        fetch(process.env.REACT_APP_API_URL + '/api/deductReport',
+            {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            }
+        )
+        .then(async (res) => {
+            if(res.status === 200) {
+                onSubmitSuccess()
+                return
+            }
+            setSubmitError('Something went wrong when submitting declaration.')
+
+        })
+        .catch(() => setSubmitError('There was a networking error.'))
     }
 
     if(loading) return (
@@ -54,6 +76,7 @@ export default function Declare({onBack, onSubmitSuccess}: DeclareProps): JSX.El
                     <p className='muted-text'>Signing and submitting is an irreversible action. Once the tax form is submitted, you are legally bound to pay the amounts submitted.</p>
                     <Button width='200px' text='Submit' onClick={handleSubmitForm} Icon={DeclareIcon}/>
                 </div>
+                {submitError !== '' && <p>Something went wrong when saving deductions. Please try again later.</p> }
             </div>
 		</>
 	)

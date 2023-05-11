@@ -7,6 +7,7 @@ import Player, { IPlayer } from '../models/Player'
 import Token from '../utilities/Token'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import { HydratedDocument as HD } from "mongoose"
 
 /**
  * API for the client.
@@ -95,6 +96,31 @@ export default class ClientAPI {
                 return
             }
             res.send(report)
+        })
+
+        /**
+         * GET: /api/signReport
+         */
+        this.app.get(this.baseURL + 'signReport', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
+
+            if(isNothing(report)){
+                res.status(404)
+                res.send('Report not found.')
+                return
+            }
+
+            await Taxes.SignTaxReport((report as ITaxReport)._id)
+
+            res.send(await Taxes.GetCurrentTaxReport(guid))
+        })
+        /**
+         * GET: /api/signReport
+         */
+        this.app.get(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
+            /* NOT YET IMPLEMENTED */
         })
         /**
          * GET: /api/player
