@@ -26,23 +26,32 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
         </>
     )
 
-    const date = new Date(data!.due)
-    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
-    const month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()
-    const year = date.getFullYear()
+    if(data === undefined) return (<></>) // To stop IDE from complaining about data possibly being undefined
+
+    
+    const textCopy = data?.signed? "Declared on" : "Declare by"
+    let textColor = 'black'
+    if(data?.signed) textColor = '#1ae86c' // Green
+    else if(data?.due < Date.now()) textColor = '#e81a39' // Red
+
+    // TODO: Save date on submitted and display here!
+
+    let timestamp = new Date(data.due).toISOString().split('T')[0]
+
+    let canDeclare: boolean = data?.signed === false && data?.valid_until > Date.now()
 
 	return (
 		<div className='tax-overview-container'>
                 <div className='content-column'>
                     <h1>Preliminary Tax</h1>
-                    <h4>Week {getWeek(date)}</h4>
+                    <h4>Week {getWeek(new Date(data.due))}</h4>
                     <TaxDisplay rows={TaxReportToResourceRowArr(data!)}/>
-                    <p style={{fontWeight: 700}}>Delcare by: {year}-{month}-{day}</p>
+                    <p style={{fontWeight: 700, color: textColor}}>Declare by: {timestamp}</p>
                 </div>
 
                 <div className='action-column'>
                     <h1>Actions</h1>
-                    <Button text='Declare' onClick={onDeclareAction}/>
+                    <Button text='Declare' onClick={onDeclareAction} disabled={canDeclare}/>
                 </div>
             </div>
 	)

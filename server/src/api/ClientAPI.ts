@@ -119,20 +119,24 @@ export default class ClientAPI {
             res.send(await Taxes.GetCurrentTaxReport(guid))
         })
         /**
-         * GET: /api/signReport
+         * GET: /api/deductReport
          */
-        this.app.get(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
+        this.app.post(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
             const guid = req.guid;
-            let report = await Taxes.GetTaxReportFromId(req.body._id);
+            let report: Maybe<HD<ITaxReport>> = await Taxes.GetTaxReportFromId(req.body._id)
 
             if (isNothing(report)) {
-                res.status(404);
-                res.send('Report not found.');
-                return;
+                res.status(404)
+                res.send('Report not found.')
+                return
             }
 
+            console.log(req.body)
 
-
+            let typedReport = report as HD<ITaxReport>
+            typedReport.deductions = req.body.deductions
+            typedReport.save()
+            res.send('Deductions saved.')
         })
         /**
          * GET: /api/player

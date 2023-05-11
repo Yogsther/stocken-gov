@@ -31,7 +31,7 @@ export default function Declare({ onBack, onSubmitSuccess }: DeclareProps): JSX.
     const [hasSigned, setHasSigned] = useState(false)
 
     const handleSubmitForm = () => {
-        console.log(data)
+        console.log(taxForm)
 
         fetch(process.env.REACT_APP_API_URL + '/api/deductReport',
             {
