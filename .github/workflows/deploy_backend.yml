@@ -22,4 +22,3 @@ jobs:
           npm i
           npm build
           sudo pm2 restart gov
-          echo hello
