@@ -27,13 +27,13 @@ export default function Row({icon, title, subtext, incomeAmount, taxAmount, dedu
                 <h2>{incomeAmount}</h2>
             </td>
             <td>
-                <h2>{taxAmount}</h2>
-            </td>
-            <td>
                 <NumberInput value={deduct} onChange={onDeductChange}/>
             </td>
             <td>
-                <h2>{taxAmount - deduct}</h2>
+                <h2>{taxAmount}</h2>
+            </td>
+            <td>
+                <h2>{taxAmount - Math.floor(deduct * 0.1)}</h2>
             </td>
         </tr>
     )

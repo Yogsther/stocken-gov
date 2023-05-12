@@ -8,13 +8,13 @@ export default function TitleRow(): JSX.Element {
                 Income
             </th>
             <th>
-                Tax
-            </th>
-            <th>
                 Deduct
             </th>
             <th>
-                You pay
+                Initial tax
+            </th>
+            <th>
+                Final tax
             </th>
         </tr>
     )
