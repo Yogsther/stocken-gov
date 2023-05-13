@@ -1,4 +1,4 @@
-# Stocken.gov - Record and file taxed.
+# Stocken.gov - Record and file taxes.
 Stocken.gov is a web application, which with the help of a minecraft server plugin, records, files and handles taxes through a web interface.
 
 # Server
