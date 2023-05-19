@@ -1,3 +1,4 @@
+import Spinner from '../Spinner/Spinner'
 import './Button.css'
 
 interface ButtonProps {
@@ -7,6 +8,7 @@ interface ButtonProps {
     width?: string,
     disabled?: boolean
     type?: "button" | "submit" | "reset"
+    loading?: boolean
 }
 
 /**
@@ -32,8 +34,30 @@ interface ButtonProps {
  * @since 2023-04-06
  */
 
-export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type}: ButtonProps): JSX.Element {
+export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type, loading}: ButtonProps): JSX.Element {
+
+    if(loading) return (
+        <button
+            disabled={disabled}
+            type={type}
+            onClick={onClick}
+            style={{ width, background: 'var(--gray-70)' }}
+        >
+            <Spinner/>
+        </button>
+    )
     return (
-        <button disabled={disabled} type={type} onClick={onClick} style={{ width }}> {Icon !== undefined && <Icon color={disabled ? 'var(--text)' : 'var(--inverted-text)'} />} {text}</button>
+        <button
+            disabled={disabled}
+            type={type}
+            onClick={onClick}
+            style={{ width }}
+        >
+            {Icon !== undefined &&
+                <Icon
+                    color={disabled ? 'var(--text)' : 'var(--inverted-text)'}
+                />}
+                {text}
+        </button>
     )
 }

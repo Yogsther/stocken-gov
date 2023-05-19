@@ -12,32 +12,39 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
     const [password, setPassword] = useState<string>('')
 
     const [error, setError] = useState<string>('_')
+    const [loading, setLoading] = useState<boolean>(false)
 
     const handleSignIn = (e: FormEvent) => {
         e.preventDefault()
+        setLoading(true)
         fetch(process.env.REACT_APP_API_URL + '/api/login',
-            {
-                method: 'POST',
-                credentials: 'include',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username,
-                    password
-                })
-            }
-        )
-            .then(async (res) => {
-                if (res.status === 401) {
-                    setError('Incorrect credentials.')
-                }
-                if (res.status === 200) {
-                    onSignIn()
-                }
+        {
+            method: 'POST',
+            credentials: 'include',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                password
             })
-            .catch(() => setError('There was a networking error.'))
+        }
+    )
+        .then(async (res) => {
+            if (res.status === 401) {
+                setError('Incorrect credentials.')
+                setLoading(false)
+            }
+            if (res.status === 200) {
+                onSignIn()
+                setLoading(false)
+            }
+        })
+        .catch(() => {
+            setLoading(false)
+            setError('There was a networking error.')
+        })
     }
 
     return (
@@ -53,7 +60,7 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
                 <p className='muted-text'>Don't have credentials? Use /setpassword in game</p>
                 <VSpace amount={Sizing.DOUBLE} />
 
-                <Button text='Sign In' type="submit" />
+                <Button text='Sign In' type="submit" loading={loading} />
 
                 <p
                     className='muted-text error'
