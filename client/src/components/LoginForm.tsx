@@ -1,7 +1,7 @@
 import Input from './Input'
 import Button from './Button/Button'
 import VSpace, { Sizing } from './VSpace'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 interface LoginFormProps {
     onSignIn: () => void
@@ -13,12 +13,8 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
 
     const [error, setError] = useState<string>('_')
 
-    useEffect(() => {
-        document.addEventListener('keydown', e => e.key === 'Enter' && handleSignIn())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    const handleSignIn = () => {
+    const handleSignIn = (e: FormEvent) => {
+        e.preventDefault()
         fetch(process.env.REACT_APP_API_URL + '/api/login',
             {
                 method: 'POST',
