@@ -1,7 +1,7 @@
 import Input from './Input'
 import Button from './Button/Button'
 import VSpace, { Sizing } from './VSpace'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface LoginFormProps {
     onSignIn: () => void
@@ -13,12 +13,10 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
 
     const [error, setError] = useState<string>('_')
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            handleSignIn()
-        }
-    })
-
+    useEffect(() => {
+        document.addEventListener('keydown', e => e.key === 'Enter' && handleSignIn())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSignIn = () => {
         fetch(process.env.REACT_APP_API_URL + '/api/login',
@@ -47,7 +45,7 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
     }
 
     return (
-        <div id='login-form'>
+        <form id='login-form' onSubmit={handleSignIn}>
             <div style={{ width: '100%' }}>
                 <h1 className='gray-50'>stocken.gov</h1>
                 <h1>Sign In</h1>
@@ -59,7 +57,7 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
                 <p className='muted-text'>Don't have credentials? Use /setpassword in game</p>
                 <VSpace amount={Sizing.DOUBLE} />
 
-                <Button text='Sign In' onClick={handleSignIn} />
+                <Button text='Sign In' type="submit" />
 
                 <p
                     className='muted-text error'
@@ -68,6 +66,6 @@ export default function LoginForm({ onSignIn }: LoginFormProps): JSX.Element {
                     {error}
                 </p>
             </div>
-        </div>
+        </form>
     )
 }
