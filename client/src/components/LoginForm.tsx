@@ -1,7 +1,7 @@
 import Input from './Input'
 import Button from './Button/Button'
 import VSpace, { Sizing } from './VSpace'
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 interface LoginFormProps {
     onSignIn: () => void
