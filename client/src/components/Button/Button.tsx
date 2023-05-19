@@ -2,10 +2,11 @@ import './Button.css'
 
 interface ButtonProps {
     text: string
-    onClick: () => void
+    onClick?: () => void
     Icon?: any
     width?: string,
     disabled?: boolean
+    type?: "button" | "submit" | "reset"
 }
 
 /**
@@ -31,8 +32,8 @@ interface ButtonProps {
  * @since 2023-04-06
  */
 
-export default function Button({ text, onClick, width = '100%', Icon, disabled = false }: ButtonProps): JSX.Element {
+export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type}: ButtonProps): JSX.Element {
     return (
-        <button disabled={disabled} onClick={onClick} style={{ width }}> {Icon !== undefined && <Icon color={disabled ? 'var(--text)' : 'var(--inverted-text)'} />} {text}</button>
+        <button disabled={disabled} type={type} onClick={onClick} style={{ width }}> {Icon !== undefined && <Icon color={disabled ? 'var(--text)' : 'var(--inverted-text)'} />} {text}</button>
     )
 }
