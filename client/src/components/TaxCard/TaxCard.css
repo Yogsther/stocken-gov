@@ -1,0 +1,11 @@
+.tax-card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tax-card-title-row h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0;
+}

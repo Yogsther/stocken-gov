@@ -6,10 +6,28 @@ import TaxReport, { ITaxReport } from "./models/TaxReport"
 import TimeUtilities from "./utilities/TimeUtilities"
 import { Nothing, Maybe, isNothing } from "./utilities/Maybe"
 export default class Taxes {
+    static async GetSignableReports(guid: any): Promise<Maybe<ITaxReport[]>> {
+        const now = Date.now()
+        const reports: ITaxReport[] = await TaxReport.find({ player_guid: guid, signed: false })
+
+        if (reports == undefined)
+            return Nothing
+
+        return reports
+    }
+    static async GetPreliminaryTaxReport(guid: any): Promise<Maybe<ITaxReport>> {
+        const now = Date.now()
+        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, valid_until: { $gt: now } })
+
+        if (report == null)
+            return Nothing
+
+        return report
+    }
     public static async GetDueAndUnsignedTaxReports(guid: number): Promise<Maybe<ITaxReport[]>> {
         const now = Date.now()
         // Gets all due and unsiged tax reports.
-        const reports: ITaxReport[] = await TaxReport.find({ player_id: guid, signed: false, due: { $lt: now } })
+        const reports: ITaxReport[] = await TaxReport.find({ player_guid: guid, signed: false, due: { $lt: now } })
         if (reports.length == 0) {
             return Nothing
         }
@@ -21,7 +39,8 @@ export default class Taxes {
      * @returns The tax reports or Nothing if none exist.
      */
     public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>> {
-        const reports: ITaxReport[] = await TaxReport.find({ player_id: guid })
+        const reports: ITaxReport[] = await TaxReport.find({ player_guid: guid })
+        console.log(reports)
         if (reports.length == 0) {
             return Nothing
         }
@@ -30,7 +49,7 @@ export default class Taxes {
 
     public static async GetCurrentTaxReport(guid: string): Promise<Maybe<ITaxReport>> {
         const now = Date.now()
-        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, valid_until: { $gt: now } })
+        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, due: {$lt: now}, valid_until: { $gt: now } })
 
         if (report == null)
             return Nothing

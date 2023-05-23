@@ -2,7 +2,10 @@ import useFetch from "../hooks/useFetch"
 import TaxReport, { TaxReportToResourceRowArr } from "../types/TaxReport"
 import Button from "./Button/Button"
 import Spinner from "./Spinner/Spinner"
+import TaxCard from "./TaxCard/TaxCard"
 import TaxDisplay from "./TaxDisplay/TaxDisplay"
+
+import getWeek from "../utils/getWeek"
 
 interface TaxOverviewProps {
     onDeclareAction: () => void
@@ -10,7 +13,7 @@ interface TaxOverviewProps {
 
 export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.Element {
 
-    const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
+    const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/reports/preliminary')
 
     if(loading) return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%'}}>
@@ -34,9 +37,10 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
 
     // TODO: Save date on submitted and display here!
 
-    let timestamp = new Date(data.due).toISOString().split('T')[0]
+    let duetimestamp = new Date(data.due).toISOString().split('T')[0]
+    let valid_untiltimestamp = new Date(data.valid_until).toISOString().split('T')[0]
 
-    let canDeclare: boolean = data?.signed === false && data?.valid_until > Date.now()
+    let canDeclare = data?.signed === false && data?.valid_until > Date.now()
 
 	return (
 		<div className='tax-overview-container'>
@@ -44,22 +48,17 @@ export default function TaxOverview({onDeclareAction}: TaxOverviewProps): JSX.El
                     <h1>Preliminary Tax</h1>
                     <h4>Week {getWeek(new Date(data.due))}</h4>
                     <TaxDisplay rows={TaxReportToResourceRowArr(data!)}/>
-                    <p style={{fontWeight: 700, color: textColor}}>Declare by: {timestamp}</p>
+                    <p style={{fontWeight: 700, color: textColor}}>Due: {duetimestamp}</p>
+                    <p style={{fontWeight: 700, color: textColor}}>Open for declaration: {valid_untiltimestamp}</p>
                 </div>
 
                 <div className='action-column'>
-                    <h1>Actions</h1>
-                    <Button text='Declare' onClick={onDeclareAction} disabled={canDeclare}/>
+                    <h1>Open for declaration</h1>
+                    {/*<Button text='Declare' onClick={onDeclareAction} disabled={canDeclare}/>*/}
+                    <TaxCard taxReport={data}/>
+                    <h1>Due</h1>
+                    <TaxCard taxReport={data}/>
                 </div>
             </div>
 	)
-}
-
-// Copied from GitHub
-// https://gist.github.com/IamSilviu/5899269
-// Should maybe be moved, lowers cohesion of TaxOverview.
-function getWeek(today: Date) {
-    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
-    const pastDaysOfYear = (today.valueOf() - firstDayOfYear.valueOf()) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 }

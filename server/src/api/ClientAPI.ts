@@ -83,9 +83,40 @@ export default class ClientAPI {
         })
 
         /**
-         * GET: /api/currentReport
+         * GET: /api/reports
+         * Gets all tax reports of a given player, no matter its status.
          */
-        this.app.get(this.baseURL + 'currentReport', async (req: Request, res: Response) => {
+        this.app.get(this.baseURL + 'reports', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            const report: Maybe<ITaxReport[]> = await Taxes.GetTaxReports(guid)
+
+            if (isNothing(report)) {
+                res.status(404)
+                res.send('No reports found.')
+                return
+            }
+            res.send(report)
+        })
+        /**
+         * GET: /api/reports/preliminary
+         */
+        this.app.get(this.baseURL + 'reports/preliminary', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            const report: Maybe<ITaxReport> = await Taxes.GetPreliminaryTaxReport(guid)
+
+            if (isNothing(report)) {
+                res.status(404)
+                res.send('No reports found.')
+                return
+            }
+            res.send(report)
+        })
+        /**
+         * GET: /api/reports/current
+         */
+        this.app.get(this.baseURL + 'reports/current', async (req: Request, res: Response) => {
             const guid = req.guid
 
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
@@ -96,6 +127,37 @@ export default class ClientAPI {
                 return
             }
             res.send(report)
+        })
+
+        /**
+         * GET: /api/reports/due
+         */
+        this.app.get(this.baseURL + 'reports/due', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            const reports: Maybe<ITaxReport[]> = await Taxes.GetDueAndUnsignedTaxReports(guid)
+
+            if (isNothing(reports)) {
+                res.status(404)
+                res.send('No reports found.')
+                return
+            }
+            res.send(reports)
+        })
+        /**
+         * GET: /api/reports/signable
+         */
+        this.app.get(this.baseURL + 'reports/signable', async (req: Request, res: Response) => {
+            const guid = req.guid
+
+            const reports: Maybe<ITaxReport[]> = await Taxes.GetSignableReports(guid)
+
+            if (isNothing(reports)) {
+                res.status(404)
+                res.send('No reports found.')
+                return
+            }
+            res.send(reports)
         })
 
         /**
