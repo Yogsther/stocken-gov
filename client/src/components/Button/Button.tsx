@@ -7,8 +7,9 @@ interface ButtonProps {
     Icon?: any
     width?: string,
     disabled?: boolean
-    type?: "button" | "submit" | "reset"
+    type?: 'button' | 'submit' | 'reset'
     loading?: boolean
+    success?: boolean
 }
 
 /**
@@ -34,14 +35,18 @@ interface ButtonProps {
  * @since 2023-04-06
  */
 
-export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type, loading}: ButtonProps): JSX.Element {
+export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type, loading, success}: ButtonProps): JSX.Element {
+    let buttonStyle
+    if(success) {
+        buttonStyle = { background: '#18c91e' }
+    }
 
     if(loading) return (
         <button
             disabled={disabled}
             type={type}
             onClick={onClick}
-            style={{ width, background: 'var(--gray-70)' }}
+            style={{ width, background: 'var(--gray-70)'}}
         >
             <Spinner/>
         </button>
@@ -51,7 +56,7 @@ export default function Button({ text, onClick, width = '100%', Icon, disabled =
             disabled={disabled}
             type={type}
             onClick={onClick}
-            style={{ width }}
+            style={{...{width}, ...buttonStyle}}
         >
             {Icon !== undefined &&
                 <Icon

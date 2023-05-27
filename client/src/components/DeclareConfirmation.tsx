@@ -7,11 +7,12 @@ import Spinner from "./Spinner/Spinner"
 
 interface DeclareConfirmationProps {
     onBack: () => void
+    reportId: string
 }
 
-export default function DeclareConfirmation({onBack}: DeclareConfirmationProps): JSX.Element {
+export default function DeclareConfirmation({onBack, reportId}: DeclareConfirmationProps): JSX.Element {
 
-    const {data, loading, error} = useFetch<TaxReport>(process.env.REACT_APP_API_URL + '/api/currentReport')
+    const {data, loading, error} = useFetch<TaxReport[]>(process.env.REACT_APP_API_URL + '/api/reports?id='+ reportId)
 
     if(loading) return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', width: '100%'}}>
@@ -33,7 +34,7 @@ export default function DeclareConfirmation({onBack}: DeclareConfirmationProps):
 			<h1>Tax report submitted</h1>
 			<h4>Week X</h4>
             <p>The following resources have to be deposited in the town hall within 5 minutes.</p>
-			<TaxDisplay rows={TaxReportToResourceRowArr(data!)}/>
+			<TaxDisplay rows={TaxReportToResourceRowArr(data![0])}/>
 		</>
 	)
 }

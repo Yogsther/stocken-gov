@@ -5,9 +5,10 @@ import getWeek from "../../utils/getWeek"
 
 interface TaxCardProps {
 	taxReport: TaxReport
+	onDeclareAction: (report: TaxReport) => void
 }
 
-export default function TaxCard({taxReport}: TaxCardProps): JSX.Element {
+export default function TaxCard({taxReport, onDeclareAction}: TaxCardProps): JSX.Element {
 
 	const now = Date.now()
 	const openForDeclaration = taxReport.valid_until < now
@@ -21,7 +22,7 @@ export default function TaxCard({taxReport}: TaxCardProps): JSX.Element {
 			</div>
 			
 			<p>+1 penalty per resouce per day</p>
-			<Button text='Declare' />
+			<Button text='Declare' onClick={() => onDeclareAction(taxReport)} />
 		</div>
 	)
 
@@ -33,7 +34,8 @@ export default function TaxCard({taxReport}: TaxCardProps): JSX.Element {
 			</div>
 			
 			<p>Description</p>
-			<Button text='Declare' />
+			This report is ready for declaration.
+			<Button text='Declare' onClick={() => {onDeclareAction(taxReport)}} />
 		</div>
 	)
 }
