@@ -9,6 +9,9 @@
   --inverted-text: white;
   --color: black;
   --muted: rgba(0,0,0,0.7);
+
+  --error: rgba(200, 30, 30, 0.7);
+  --success: rgba(44, 149, 37, 0.677);
 }
 body {
   background-color: var(--background);

@@ -38,7 +38,7 @@ interface ButtonProps {
 export default function Button({ text, onClick, width = '100%', Icon, disabled = false, type, loading, success}: ButtonProps): JSX.Element {
     let buttonStyle
     if(success) {
-        buttonStyle = { background: '#18c91e' }
+        buttonStyle = { background: 'var(--success)' }
     }
 
     if(loading) return (

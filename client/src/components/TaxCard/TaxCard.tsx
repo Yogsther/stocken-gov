@@ -18,7 +18,7 @@ export default function TaxCard({taxReport, onDeclareAction}: TaxCardProps): JSX
 		<div className='tax-card-container'>
 			<div className='tax-card-title-row'>
 				<h4>Week {getWeek(new Date(taxReport.valid_until))}</h4>
-				<h4>Due</h4>
+				<h4 style={{color: 'var(--error)'}}>Due</h4>
 			</div>
 			
 			<p>+1 penalty per resouce per day</p>
