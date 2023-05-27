@@ -20,5 +20,4 @@ jobs:
           cd ~/stocken-gov/server
           git pull
           npm ci
-          npm run build
           pm2 restart gov
