@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, Next } from 'express'
 import Taxes from '../Taxes'
-import { ITaxReport } from '../models/TaxReport'
+import TaxReport, { ITaxReport } from '../models/TaxReport'
 import Config from '../Config'
 import { isNothing, Maybe } from '../utilities/Maybe'
 import Player, { IPlayer } from '../models/Player'
@@ -85,18 +85,26 @@ export default class ClientAPI {
         /**
          * GET: /api/reports
          * Gets all tax reports of a given player, no matter its status.
+         * Given an id query param, it will get only report with that id.
          */
         this.app.get(this.baseURL + 'reports', async (req: Request, res: Response) => {
             const guid = req.guid
+            const id = req.query.id
 
-            const report: Maybe<ITaxReport[]> = await Taxes.GetTaxReports(guid)
-
-            if (isNothing(report)) {
-                res.status(404)
-                res.send('No reports found.')
-                return
+            if(id) {
+                const reports = [(await Taxes.GetTaxReportFromId(id)) as ITaxReport]
+                res.send(reports)
             }
-            res.send(report)
+            else {
+                const reports = await Taxes.GetTaxReports(guid)
+
+                if (isNothing(reports)) {
+                    res.status(404)
+                    res.send('No reports found.')
+                    return
+                }
+                res.send(reports)
+            }
         })
         /**
          * GET: /api/reports/preliminary
@@ -122,8 +130,8 @@ export default class ClientAPI {
             const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
 
             if (isNothing(report)) {
-                res.status(404)
-                res.send('No reports found.')
+                res.status(200)
+                res.send([])
                 return
             }
             res.send(report)
@@ -138,8 +146,8 @@ export default class ClientAPI {
             const reports: Maybe<ITaxReport[]> = await Taxes.GetDueAndUnsignedTaxReports(guid)
 
             if (isNothing(reports)) {
-                res.status(404)
-                res.send('No reports found.')
+                res.status(200)
+                res.send([])
                 return
             }
             res.send(reports)
@@ -153,22 +161,23 @@ export default class ClientAPI {
             const reports: Maybe<ITaxReport[]> = await Taxes.GetSignableReports(guid)
 
             if (isNothing(reports)) {
-                res.status(404)
-                res.send('No reports found.')
+                res.status(200)
+                res.send([])
                 return
             }
             res.send(reports)
         })
 
         /**
-         * GET: /api/signReport
+         * PUT: /api/reports/sign
          */
-        this.app.get(this.baseURL + 'signReport', async (req: Request, res: Response) => {
+        this.app.put(this.baseURL + 'reports/sign', async (req: Request, res: Response) => {
             const guid = req.guid
+            const id = req.query.id
 
             console.log('Signing report for ' + guid + "!!!!!!!!!!!!!")
 
-            const report: Maybe<ITaxReport> = await Taxes.GetCurrentTaxReport(guid)
+            const report: Maybe<ITaxReport> = await Taxes.GetTaxReportFromId(id)
 
             if (isNothing(report)) {
                 res.status(404)
@@ -178,13 +187,14 @@ export default class ClientAPI {
 
             await Taxes.SignTaxReport((report as ITaxReport)._id)
 
-            res.send(await Taxes.GetCurrentTaxReport(guid))
+            res.send(await Taxes.GetTaxReportFromId(id))
         })
         /**
-         * GET: /api/deductReport
+         * PUT: /api/reports/deduct
          */
-        this.app.post(this.baseURL + 'deductReport', async (req: Request, res: Response) => {
+        this.app.put(this.baseURL + 'reports/deduct', async (req: Request, res: Response) => {
             const guid = req.guid;
+            console.log(req.body)
             let report: Maybe<HD<ITaxReport>> = await Taxes.GetTaxReportFromId(req.body._id)
 
             if (isNothing(report)) {
@@ -193,12 +203,10 @@ export default class ClientAPI {
                 return
             }
 
-            console.log(req.body)
-
             let typedReport = report as HD<ITaxReport>
             typedReport.deductions = req.body.deductions
-            typedReport.save()
-            res.send('Deductions saved.')
+            await typedReport.save()
+            res.send(typedReport)
         })
         /**
          * GET: /api/player

@@ -40,7 +40,6 @@ export default class Taxes {
      */
     public static async GetTaxReports(guid: string): Promise<Maybe<ITaxReport[]>> {
         const reports: ITaxReport[] = await TaxReport.find({ player_guid: guid })
-        console.log(reports)
         if (reports.length == 0) {
             return Nothing
         }
@@ -49,7 +48,7 @@ export default class Taxes {
 
     public static async GetCurrentTaxReport(guid: string): Promise<Maybe<ITaxReport>> {
         const now = Date.now()
-        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, due: {$lt: now}, valid_until: { $gt: now } })
+        const report: ITaxReport = await TaxReport.findOne({ player_guid: guid, due: {$gt: now}, valid_until: { $lt: now } })
 
         if (report == null)
             return Nothing
@@ -59,7 +58,7 @@ export default class Taxes {
 
     public static async GetOrCreateValidTaxReport(guid: string): Promise<HD<ITaxReport>> {
 
-        let report = await Taxes.GetCurrentTaxReport(guid)
+        let report = await Taxes.GetPreliminaryTaxReport(guid)
         const now = Date.now()
 
         if (isNothing(report) || (report as ITaxReport).valid_until < now) {
@@ -73,7 +72,7 @@ export default class Taxes {
                 signed: false
             }).save()
 
-            return this.GetOrCreateValidTaxReport(guid)
+            return Taxes.GetOrCreateValidTaxReport(guid)
         }
 
         return report as HD<ITaxReport>
@@ -121,10 +120,11 @@ export default class Taxes {
      * @param user_id The guid for the player to update income for.
      */
     public static async UpdateIncome(user_id: string, item_id: string, amount: number): Promise<void> {
+        console.log("hello!")
         if (amount <= 0) {
             throw new Error('Cannot register negative amount of items picked up.')
         }
-
+        console.log("got here")
         const player: IPlayer = await Player.findOne({ guid: user_id })
         if (player == null) {
             console.log('Tried to upsert at tax report for non-existent user.')
