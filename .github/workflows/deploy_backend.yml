@@ -1,7 +1,7 @@
 name: Deploy backend API
 on:
   push:
-    branches: [main]
+    branches: [master]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,11 +14,11 @@ jobs:
       uses: appleboy/ssh-action@master
       with:
         host: mc.stocken.okdev.se
-        username: stocken
+        username: olle
         password: ${{ secrets.SSH_KEY }}
         script: |
           cd ~/stocken-gov/server
           git pull
-          npm i
-          npm build
+          npm ci
+          echo ${{ secrets.SSH_KEY }} | sudo -S npm run build
           sudo pm2 restart gov
