@@ -34,7 +34,7 @@ Note: The minecraft server runs on port 25566
 # Contributing to the project.
 Things that need to be done are written down under "issues" in the repository. When staring work on something, assign yourself to an existing issue, or create one and assign yourself to it. Create a branch of branch development, with the issue # as prefix, and then an appropriate name. When you are done, submit a pull request.
 
-The client web application is continously deployed. Changes / commits to it on the master branch will trigger a GitHub actions workflow that deploys it. The deployed client is avaliable [here](https://gov.stocken.okdev.se)
+The frontend web application and backend API are continously deployed. Changes / commits to the master branch will trigger a set of GitHub actions workflows that deploys both the backend and frontend. The deployed client is avaliable [here](https://gov.stocken.okdev.se)
 
 Unit tests in the server are also automatically run via a GitHub actions workflow on commit/merge to master.
 
