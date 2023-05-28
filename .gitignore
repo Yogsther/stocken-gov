@@ -1,4 +1,5 @@
 plugin/target
 server/node_modules
 server/config.json
+server/build
 mc-test-server/*
