@@ -49,6 +49,5 @@ export default function Navigator() {
                 {getCurrentPage()}
             </NavigationContextSetter.Provider>
         </NavigationContextState.Provider>
-
     )
 }

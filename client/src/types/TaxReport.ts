@@ -6,6 +6,7 @@ import ResourceRow from "./ResourceRow"
  * They may go out of sync if any of them are changed.
  */
 export default interface TaxReport {
+    _id: string
     player_guid: string
     // Any because ts Map is turned into Object when JSON.stringify turns it into a JSON object.
     income: any
